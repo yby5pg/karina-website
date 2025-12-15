@@ -1,0 +1,26 @@
+---
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/headshot-resume", label: "H & R" },
+  { href: "/reels", label: "Reels" },
+  { href: "/media", label: "Media" },
+];
+---
+
+<header class="pt-10">
+  <nav class="flex items-center justify-between">
+    <a href="/" class="text-sm font-semibold tracking-wide text-white">
+      Karina Yakubisin
+    </a>
+
+    <div class="flex gap-6 text-sm text-neutral-300">
+      {links.map((l) => (
+        <a href={l.href} class="hover:text-white transition-colors">
+          {l.label}
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <div class="mt-8 h-px w-full bg-neutral-800/80" />
+</header>

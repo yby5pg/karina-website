@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Karina Yakubisin">
+  <section class="grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:items-center">
+    <div>
+      <h1 class="text-5xl font-semibold tracking-tight">Karina Yakubisin</h1>
+      <p class="mt-4 text-lg text-neutral-300">Musical Theatre • Dance • Performance</p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/media" class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-neutral-900 hover:bg-neutral-200 transition">
+          Watch / View Media
+        </a>
+        <a href="/resume" class="rounded-full border border-neutral-700 px-6 py-3 text-sm font-semibold text-neutral-100 hover:border-neutral-500 transition">
+          Resume
+        </a>
+      </div>
+
+      <p class="mt-10 max-w-prose text-sm leading-6 text-neutral-400">
+        Add a short bio here (2–4 sentences): training, recent credits, and what you’re currently seeking.
+      </p>
+    </div>
+
+    <div class="overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/30">
+      <img
+        src="/images/headshots/main.jpg"
+        alt="Headshot of Karina Yakubisin"
+        class="h-full w-full object-cover"
+        loading="eager"
+      />
+    </div>
+  </section>
+</BaseLayout>

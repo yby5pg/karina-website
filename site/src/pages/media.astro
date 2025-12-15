@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const photos = [
+  "/images/productions/photo-1.jpg",
+  "/images/productions/photo-2.jpg",
+  "/images/productions/photo-3.jpg",
+  "/images/productions/photo-4.jpg",
+];
+
+const reviews = [
+  {
+    show: "Show Title",
+    role: "Role Name",
+    source: "Publication / Reviewer",
+    quote: "Short pull quote from the review.",
+    date: "2025",
+    link: "", // optional
+  },
+  {
+    show: "Show Title",
+    role: "Role Name",
+    source: "Publication / Reviewer",
+    quote: "Another short pull quote.",
+    date: "2024",
+    link: "",
+  },
+];
+---
+<BaseLayout title="Media — Karina Yakubisin">
+  <h1 class="text-3xl font-semibold tracking-tight">Media</h1>
+  <p class="mt-2 text-sm text-neutral-400">
+    Production photos and selected reviews.
+  </p>
+
+  <section class="mt-10">
+    <h2 class="text-lg font-semibold">Photos</h2>
+    <div class="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3">
+      {photos.map((src) => (
+        <div class="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/30">
+          <img src={src} alt="Production photo" class="h-56 w-full object-cover" loading="lazy" />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="text-lg font-semibold">Show Reviews</h2>
+    <div class="mt-4 grid gap-4">
+      {reviews.map((r) => (
+        <article class="rounded-2xl border border-neutral-800 bg-neutral-900/30 p-6">
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 class="text-base font-semibold text-neutral-100">
+              {r.show} <span class="text-neutral-400 font-normal">— {r.role}</span>
+            </h3>
+            <p class="text-xs text-neutral-500">{r.date}</p>
+          </div>
+
+          <p class="mt-1 text-sm text-neutral-400">{r.source}</p>
+
+          <p class="mt-4 text-sm leading-6 text-neutral-200">
+            “{r.quote}”
+          </p>
+
+          {r.link ? (
+            <a
+              href={r.link}
+              target="_blank"
+              rel="noreferrer"
+              class="mt-4 inline-block text-sm text-neutral-300 hover:text-white underline-offset-4 hover:underline"
+            >
+              Read more
+            </a>
+          ) : null}
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

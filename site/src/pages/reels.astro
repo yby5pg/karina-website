@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const reels = [
+  { title: "Vocal Reel", url: "https://www.youtube.com/embed/VIDEO_ID" },
+  { title: "Dance Reel", url: "https://www.youtube.com/embed/VIDEO_ID" },
+  { title: "Acting Clip", url: "https://www.youtube.com/embed/VIDEO_ID" },
+];
+---
+<BaseLayout title="Reels — Karina Yakubisin">
+  <h1 class="text-3xl font-semibold tracking-tight">Reels</h1>
+  <p class="mt-2 text-sm text-neutral-400">
+    Selected clips and reels. (Replace VIDEO_ID with your YouTube/Vimeo embed IDs.)
+  </p>
+
+  <section class="mt-10 grid gap-6 md:grid-cols-2">
+    {reels.map((r) => (
+      <div class="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/30">
+        <div class="px-4 py-3 text-sm font-semibold text-neutral-200">{r.title}</div>
+        <div class="aspect-video">
+          <iframe
+            class="h-full w-full"
+            src={r.url}
+            title={r.title}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          />
+        </div>
+      </div>
+    ))}
+  </section>
+</BaseLayout>

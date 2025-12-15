@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Headshot + Resume — Karina Yakubisin">
+  <h1 class="text-3xl font-semibold tracking-tight">Headshot + Resume</h1>
+  <p class="mt-2 text-sm text-neutral-400">
+    Download my resume and view headshots.
+  </p>
+
+  <section class="mt-10 grid gap-8 md:grid-cols-2">
+    <div class="overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/30">
+      <img
+        src="/images/headshots/main.jpg"
+        alt="Headshot of Karina Yakubisin"
+        class="h-full w-full object-cover"
+        loading="eager"
+      />
+    </div>
+
+    <div class="rounded-3xl border border-neutral-800 bg-neutral-900/30 p-6">
+      <h2 class="text-lg font-semibold">Resume</h2>
+      <p class="mt-2 text-sm text-neutral-400">
+        PDF download + embedded view.
+      </p>
+
+      <div class="mt-5 flex flex-wrap gap-3">
+        <a
+          href="/resume.pdf"
+          class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-neutral-900 hover:bg-neutral-200 transition"
+          download
+        >
+          Download Resume (PDF)
+        </a>
+      </div>
+
+      <div class="mt-6 overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950">
+        <iframe src="/resume.pdf" class="h-[560px] w-full" title="Resume PDF"></iframe>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
