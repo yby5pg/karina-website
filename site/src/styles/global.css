@@ -1,1 +1,157 @@
 @import "tailwindcss";
+
+/* ============================
+   THEME TOKENS (EDIT THESE)
+   ============================ */
+:root {
+  /* Backgrounds */
+  --bg: 252 248 244;        /* warm cream */
+  --surface: 255 251 247;   /* panels / cards */
+
+  /* Default text (USED EVERYWHERE) */
+  --text: 32 28 28;         /* off-black */
+  --muted: 92 82 82;        /* muted off-black */
+
+  /* Accent (pinkish maroon) */
+  --accent: 168 64 92;      /* rose-maroon */
+  --accent-hover: 190 78 110;
+
+  /* Lines / borders */
+  --line: 190 110 135;
+
+  /* Interactive text */
+  --button-text: 255 248 248;
+  --form-text: 255 248 248;
+}
+
+/* ============================
+   BASE STYLES
+   ============================ */
+@layer base {
+  html {
+    background: rgb(var(--bg));
+  }
+
+  body {
+    background: rgb(var(--bg));
+    color: rgb(var(--text));
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  nav, header {
+    color: rgb(var(--text));
+  }
+}
+
+/* ============================
+   LAYOUT UTILITIES
+   ============================ */
+@layer components {
+  .page {
+    @apply min-h-screen antialiased;
+  }
+
+  .container {
+  @apply mx-auto max-w-3xl px-12;
+    }
+
+
+  .divider {
+    height: 1px;
+    background: rgb(var(--line));
+  }
+
+  .panel {
+    background: rgb(var(--surface));
+    border: 1px solid rgb(var(--line));
+    @apply rounded-3xl;
+  }
+
+  .muted {
+    color: rgb(var(--muted));
+  }
+
+  /* ============================
+     BUTTONS (DIFFERENT TEXT)
+     ============================ */
+  .btn {
+    background: rgb(var(--accent));
+    color: rgb(var(--button-text));
+    @apply inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold transition;
+  }
+
+  .btn:hover {
+    background: rgb(var(--accent-hover));
+  }
+
+  .btn-outline {
+    border: 1px solid rgb(var(--accent));
+    color: rgb(var(--accent));
+    @apply inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold transition;
+  }
+
+  .btn-outline:hover {
+    background: rgb(var(--accent));
+    color: rgb(var(--button-text));
+  }
+
+  /* ============================
+     CONTACT FORM (DIFFERENT TEXT)
+     ============================ */
+  .contact-panel {
+    background: rgb(var(--accent));
+    color: rgb(var(--form-text));
+    @apply rounded-3xl;
+  }
+
+  .contact-panel .muted {
+    color: rgb(245 215 225);
+  }
+
+  .input {
+    background: transparent;
+    border: 1px solid rgb(245 215 225);
+    color: rgb(var(--form-text));
+    @apply w-full rounded-lg px-4 py-2 text-sm outline-none transition;
+  }
+
+  .input::placeholder {
+    color: rgb(245 215 225);
+  }
+
+  .input:focus {
+    border-color: white;
+  }
+}
+
+/* ============================
+   SCROLLBAR CLEANUP
+   ============================ */
+
+/* Hide scrollbars globally (still scrollable) */
+* {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE/Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none;                  /* Chrome/Safari */
+}
+
+/* Horizontal scroll container helper */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+}
+
+.snap-item {
+  scroll-snap-align: start;
+}

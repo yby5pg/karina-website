@@ -1,10 +1,35 @@
 ---
 const year = new Date().getFullYear();
+const email = "your@email.com"; // CHANGE THIS
 ---
-<footer class="py-12">
-  <div class="h-px w-full bg-neutral-800/80" />
-  <div class="mt-6 flex flex-col gap-2 text-xs text-neutral-500 sm:flex-row sm:items-center sm:justify-between">
-    <p>© {year} Karina Yakubisin</p>
-    <p class="text-neutral-600">Built with Astro + Tailwind</p>
+<footer class="mt-20 pt-12">
+  <div class="divider"></div>
+
+  <div class="mt-10 grid gap-10 md:grid-cols-2">
+    <div>
+      <p class="text-sm font-semibold tracking-wide">Karina Yakubisin</p>
+      <p class="mt-2 text-xs muted">© {year}</p>
+    </div>
+
+    <form
+      action={`mailto:${email}`}
+      method="post"
+      enctype="text/plain"
+      class="panel contact-panel p-6"
+    >
+
+      <h3 class="text-sm font-semibold tracking-wide">Contact</h3>
+
+      <div class="mt-4 grid gap-3">
+        <input class="input" type="text" name="name" placeholder="Name" required />
+        <input class="input" type="email" name="email" placeholder="Email" required />
+        <textarea class="input" name="message" placeholder="Message" rows="4" required></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary mt-4">
+        Send Message
+      </button>
+    </form>
   </div>
+
 </footer>

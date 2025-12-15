@@ -1,33 +1,102 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const mediaPreview = [
+  { title: "Reels", href: "/reels", img: "/images/productions/photo-1.jpg" },
+  { title: "Media", href: "/media", img: "/images/productions/photo-2.jpg" },
+  { title: "Headshot + Resume", href: "/headshot-resume", img: "/images/headshots/main.jpg" },
+  { title: "Media", href: "/media", img: "/images/productions/photo-3.jpg" },
+  { title: "Reels", href: "/reels", img: "/images/productions/photo-4.jpg" },
+];
 ---
 <BaseLayout title="Karina Yakubisin">
-  <section class="grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:items-center">
-    <div>
-      <h1 class="text-5xl font-semibold tracking-tight">Karina Yakubisin</h1>
-      <p class="mt-4 text-lg text-neutral-300">Musical Theatre • Dance • Performance</p>
+  <!-- HERO (image-first) -->
+  <section class="mt-10">
+    <div class="panel p-8 md:p-10">
+      <div class="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
+        <!-- LEFT: text -->
+        <div>
+        <div class="max-w-md">
+          <h1 class="text-5xl md:text-6xl font-semibold tracking-tight">
+            Karina Yakubisin
+          </h1>
+          <p class="mt-4 text-lg md:text-xl muted">
+            Dancer • Singer • Actor
+          </p>
 
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="/media" class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-neutral-900 hover:bg-neutral-200 transition">
-          Watch / View Media
-        </a>
-        <a href="/resume" class="rounded-full border border-neutral-700 px-6 py-3 text-sm font-semibold text-neutral-100 hover:border-neutral-500 transition">
-          Resume
-        </a>
+        </div>
+        </div>
+
+        <!-- RIGHT: portrait image -->
+        <div class="flex justify-center md:justify-center">
+          <div class="overflow-hidden rounded-3xl border" style="border-color: rgb(var(--line));">
+            <img
+              src="/images/home/hero.JPEG"
+              alt="Karina Yakubisin"
+              class="h-[520px] w-[380px] object-cover"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ABOUT BLURB (scroll down) -->
+  <section class="mt-14">
+    <div class="divider"></div>
+    <div class="mt-10 grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:items-start">
+      <div>
+        <h2 class="text-2xl font-semibold tracking-tight">Hi!</h2>
+        <p class="mt-4 text-sm leading-6 muted">
+          My name is Karina and I am trained dancer, singer, and actor. My first love
+          was dance, but I quickly found my love for musical theatre as well. Feel free to take
+          a look around!
+        </p>
       </div>
 
-      <p class="mt-10 max-w-prose text-sm leading-6 text-neutral-400">
-        Add a short bio here (2–4 sentences): training, recent credits, and what you’re currently seeking.
-      </p>
+      <!-- small “featured links” column like the reference site -->
+      <div class="panel p-6">
+        <h3 class="text-sm font-semibold tracking-wide">Explore</h3>
+        <div class="mt-4 flex flex-col gap-3">
+          <a class="btn w-fit" href="/reels">Watch Reels</a>
+          <a class="btn-outline w-fit" href="/headshot-resume">Headshot + Resume</a>
+          <a class="btn-outline w-fit" href="/media">Photos + Reviews</a>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900/30">
-      <img
-        src="/images/headshots/main.jpg"
-        alt="Headshot of Karina Yakubisin"
-        class="h-full w-full object-cover"
-        loading="eager"
-      />
+  <!-- MEDIA PREVIEW STRIP (clickable thumbnails) -->
+  <section class="mt-16">
+    <h2 class="text-2xl font-semibold tracking-tight">Media</h2>
+    <p class="mt-2 text-sm muted">
+      Click any image to view more.
+    </p>
+
+    <!-- horizontal scroll strip -->
+    <div class="mt-6 -mx-6 px-6 overflow-x-auto no-scrollbar">
+      <div class="flex gap-4 pb-2">
+        {mediaPreview.map((m) => (
+          <a
+            href={m.href}
+            class="group panel overflow-hidden shrink-0 w-[280px] md:w-[320px]"
+            aria-label={m.title}
+          >
+            <img
+              src={m.img}
+              alt={m.title}
+              class="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+              loading="lazy"
+            />
+            <div class="p-4">
+              <p class="text-sm font-semibold">{m.title}</p>
+              <p class="mt-1 text-xs muted">Open →</p>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 </BaseLayout>

@@ -1,19 +1,18 @@
 ---
 const links = [
   { href: "/", label: "Home" },
-  { href: "/headshot-resume", label: "H & R" },
+  { href: "/headshot-resume", label: "Headshot + Resume" },
   { href: "/reels", label: "Reels" },
   { href: "/media", label: "Media" },
 ];
 ---
-
 <header class="pt-10">
   <nav class="flex items-center justify-between">
-    <a href="/" class="text-sm font-semibold tracking-wide text-white">
+    <a href="/" class="text-sm font-semibold tracking-wide">
       Karina Yakubisin
     </a>
 
-    <div class="flex gap-6 text-sm text-neutral-300">
+    <div class="flex gap-6 text-sm muted">
       {links.map((l) => (
         <a href={l.href} class="hover:text-white transition-colors">
           {l.label}
@@ -22,5 +21,5 @@ const links = [
     </div>
   </nav>
 
-  <div class="mt-8 h-px w-full bg-neutral-800/80" />
+  <div class="mt-8 divider"></div>
 </header>
