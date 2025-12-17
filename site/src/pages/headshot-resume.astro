@@ -2,29 +2,59 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 <BaseLayout title="Headshot + Resume — Karina Yakubisin">
-  <h1 class="text-3xl font-semibold tracking-tight">Headshot + Resume</h1>
+<section class="mt-8 flex justify-center">
+  <div class="space-y-6">
+    <!-- Heading aligned with media block -->
+    <h1 class="text-2xl font-semibold tracking-tight">
+      Headshot + Resume
+    </h1>
 
-  <section class="mt-10 grid gap-8 md:grid-cols-2">
-    <div class="panel-soft overflow-hidden">
-      <img
-        src="/images/headshots/main.jpg"
-        alt="Headshot of Karina Yakubisin"
-        class="h-full w-full object-cover"
-        loading="eager"
-      />
+    <!-- Media row -->
+    <div class="grid gap-6 sm:grid-cols-2">
+      <!-- Headshot -->
+      <a
+        href="/downloads/karina-yakubisin-headshot.jpg"
+        download
+        class="group justify-self-center"
+      >
+        <div class="media-frame w-full max-w-[260px]">
+          <img
+            src="/images/headshots/main.jpg"
+            alt="Headshot of Karina Yakubisin"
+            class="w-full aspect-[4/5] object-cover"
+            loading="eager"
+          />
+
+          <!-- hover overlay -->
+          <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <div class="absolute inset-0 bg-black/20"></div>
+            <span class="relative btn">Download</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Resume -->
+      <a
+        href="/downloads/karina-yakubisin-resume.pdf"
+        download
+        class="group justify-self-center"
+      >
+        <div class="media-frame w-full max-w-[260px]">
+          <img
+            src="/images/resume.png"
+            alt="Resume"
+            class="w-full aspect-[8.5/11] object-contain bg-white"
+          />
+
+          <!-- hover overlay -->
+          <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <div class="absolute inset-0 bg-black/20"></div>
+            <span class="relative btn">Download</span>
+          </div>
+        </div>
+      </a>
     </div>
+  </div>
+</section>
 
-    <div class="panel p-6">
-      <h2 class="text-lg font-semibold">Resume</h2>
-      <p class="mt-2 text-sm muted">PDF download + embedded view.</p>
-
-      <div class="mt-5">
-        <a href="/resume.pdf" class="btn-primary" download>Download Resume (PDF)</a>
-      </div>
-
-      <div class="mt-6 overflow-hidden rounded-2xl border" style="border-color: rgb(var(--border)); background: rgb(var(--bg));">
-        <iframe src="/resume.pdf" class="h-[560px] w-full" title="Resume PDF"></iframe>
-      </div>
-    </div>
-  </section>
 </BaseLayout>

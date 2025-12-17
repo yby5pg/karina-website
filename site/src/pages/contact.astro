@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const email = "your@email.com"; // change this
+---
+<BaseLayout title="Contact — Karina Yakubisin">
+  <div class="flex justify-center mt-12">
+    <div class="w-full max-w-sm">
+      <h1 class="text-2xl font-semibold tracking-tight text-center">
+        Contact
+      </h1>
+      <p class="mt-2 text-sm muted text-center">
+        For bookings, auditions, or inquiries.
+      </p>
+
+      <form
+        action={`mailto:${email}`}
+        method="post"
+        enctype="text/plain"
+        class="contact-panel p-6 mt-6"
+      >
+        <div class="grid gap-4">
+          <input class="input" type="text" name="name" placeholder="Name" required />
+          <input class="input" type="email" name="email" placeholder="Email" required />
+          <textarea class="input" name="message" placeholder="Message" rows="5" required></textarea>
+
+          <button type="submit" class="btn w-full">
+            Send Message
+          </button>
+
+          <p class="text-xs muted text-center">
+            Opens your email client.
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</BaseLayout>

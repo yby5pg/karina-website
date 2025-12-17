@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const photos = [
+  "/images/productions/54.JPEG",
+  "/images/productions/33.jpeg",
+  "/images/productions/3.JPEG",
+  "/images/productions/27.JPEG",
+  "/images/productions/18.JPEG",
+  "/images/productions/47.jpeg",
+  "/images/productions/14.JPEG",
+  "/images/productions/31.jpeg",
+  "/images/productions/55.jpeg",
+  "/images/productions/22.JPEG",
+  "/images/productions/4.JPEG",
+  "/images/productions/1.PNG",
+  "/images/productions/15.JPEG",
+  "/images/productions/2.JPEG",
+  "/images/productions/8.JPEG",
+  "/images/productions/52.jpeg",
+  "/images/productions/42.png",
+  "/images/productions/58.jpeg",
+  "/images/productions/34.jpeg",
+  "/images/productions/48.jpeg",
+  "/images/productions/39.jpeg",
+  "/images/productions/19.JPEG",
+  "/images/productions/41.jpeg",
+  "/images/productions/5.JPEG",
+  "/images/productions/53.JPEG",
+  "/images/productions/30.jpeg",
+  "/images/productions/24.JPEG",
+  "/images/productions/46.jpeg",
+  "/images/productions/37.png",
+  "/images/productions/51.png",
+  "/images/productions/44.png",
+  "/images/productions/56.jpeg",
+  "/images/productions/9.JPEG",
+  "/images/productions/32.jpeg",
+  "/images/productions/49.jpeg",
+  "/images/productions/40.jpeg",
+  "/images/productions/20.JPEG",
+  "/images/productions/35.jpeg",
+  "/images/productions/28.JPEG",
+  "/images/productions/45.png",
+  "/images/productions/38.png",
+  "/images/productions/12.JPEG",
+  "/images/productions/50.jpeg",
+  "/images/productions/43.png",
+  "/images/productions/57.JPEG",
+  "/images/productions/6.JPEG",
+  "/images/productions/36.jpeg",
+  "/images/productions/25.JPEG",
+  "/images/productions/17.JPEG",
+  "/images/productions/7.JPEG",
+  "/images/productions/29.JPEG",
+  "/images/productions/23.JPEG",
+  "/images/productions/16.JPEG",
+  "/images/productions/21.JPEG",
+  "/images/productions/10.JPEG",
+  "/images/productions/26.JPEG",
+  "/images/productions/13.JPEG",
+];
+
+const reviews = [
+  {
+    show: "Show Title",
+    role: "Role Name",
+    source: "Publication / Reviewer",
+    quote: "Short pull quote from the review.",
+    date: "2025",
+    link: "", // optional
+  },
+  {
+    show: "Show Title",
+    role: "Role Name",
+    source: "Publication / Reviewer",
+    quote: "Another short pull quote.",
+    date: "2024",
+    link: "",
+  },
+];
+---
+<BaseLayout title="Stills — Karina Yakubisin">
+  <h1 class="text-2xl font-semibold tracking-tight">Stills</h1>
+
+  <section class="mt-10">
+    <div class="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3">
+      {photos.map((src) => (
+        <div class="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/30">
+          <img src={src} alt="Production photo" class="w-full aspect-square object-cover" loading="lazy" />
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

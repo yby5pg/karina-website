@@ -35,7 +35,10 @@
   body {
     background: rgb(var(--bg));
     color: rgb(var(--text));
+    font-size: 0.95rem; /* slightly smaller overall */
+    line-height: 1.45;
   }
+
 
   h1, h2, h3, h4, h5, h6,
   nav, header {
@@ -52,8 +55,25 @@
   }
 
   .container {
-  @apply mx-auto max-w-3xl px-12;
+    @apply mx-auto px-30 max-w-3xl;
+  }
+
+  /* Extra breathing room on very large screens */
+  @media (min-width: 1536px) {
+    .container {
+      max-width: 36rem; /* ~640px */
     }
+  }
+
+  .media-frame {
+  @apply relative rounded-3xl overflow-hidden border;
+  border-color: rgb(var(--line));
+  padding: 0;
+}
+
+.media-frame .overlay {
+  pointer-events: none;
+}
 
 
   .divider {

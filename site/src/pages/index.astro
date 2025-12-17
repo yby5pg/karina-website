@@ -1,102 +1,118 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const mediaPreview = [
-  { title: "Reels", href: "/reels", img: "/images/productions/photo-1.jpg" },
-  { title: "Media", href: "/media", img: "/images/productions/photo-2.jpg" },
-  { title: "Headshot + Resume", href: "/headshot-resume", img: "/images/headshots/main.jpg" },
-  { title: "Media", href: "/media", img: "/images/productions/photo-3.jpg" },
-  { title: "Reels", href: "/reels", img: "/images/productions/photo-4.jpg" },
+const headshots = [
+  "/images/headshots/headshot1.JPG",
+  "/images/headshots/headshot2.JPG",
+  "/images/headshots/headshot3.JPG",
+];
+
+const carouselItems = [
+  { type: "photo", src: "/slideshow/photos/14.JPEG", href: "/stills"},
+  { type: "video", src: "/slideshow/videos/Karina Yakubisin Dance Reel (1).mp4", poster: "/slideshow/photos/DanceReel.png", start: "48.1", href: "/reels"},
+  { type: "photo", src: "/slideshow/photos/3.JPEG", href: "/stills"},
+  { type: "video", src: "/slideshow/videos/Karina Yakubisin Musical Theatre Reel.mp4", poster: "/slideshow/photos/MTReel.png", start: "4.5", href: "/reels"},
+  { type: "photo", src: "/slideshow/photos/8.JPEG", href: "/stills"},
+  { type: "photo", src: "/slideshow/photos/16.JPEG", href: "/stills"},
 ];
 ---
+
 <BaseLayout title="Karina Yakubisin">
-  <!-- HERO (image-first) -->
+  <!-- HERO: 3 headshots -->
   <section class="mt-10">
-    <div class="panel p-8 md:p-10">
-      <div class="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
-        <!-- LEFT: text -->
-        <div>
-        <div class="max-w-md">
-          <h1 class="text-5xl md:text-6xl font-semibold tracking-tight">
-            Karina Yakubisin
-          </h1>
-          <p class="mt-4 text-lg md:text-xl muted">
-            Dancer • Singer • Actor
-          </p>
-
-        </div>
-        </div>
-
-        <!-- RIGHT: portrait image -->
-        <div class="flex justify-center md:justify-center">
-          <div class="overflow-hidden rounded-3xl border" style="border-color: rgb(var(--line));">
-            <img
-              src="/images/home/hero.JPEG"
-              alt="Karina Yakubisin"
-              class="h-[520px] w-[380px] object-cover"
-              loading="eager"
-            />
-          </div>
-        </div>
+   <div class="mt-10 -mx-2 px-2 overflow-x-auto no-scrollbar">
+  <div class="flex flex-nowrap gap-6 justify-center">
+    {headshots.map((src) => (
+      <div class="media-frame flex-1 basis-0 min-w-[160px] max-w-[410px]">
+        <img
+          src={src}
+          alt="Headshot of Karina Yakubisin"
+          class="w-full aspect-[4/5] object-cover"
+          loading="eager"
+        />
       </div>
-    </div>
+    ))}
+  </div>
+</div>
+
   </section>
 
-
-  <!-- ABOUT BLURB (scroll down) -->
-  <section class="mt-14">
+  <!-- ABOUT + LINKS -->
+  <section class="mt-12">
     <div class="divider"></div>
-    <div class="mt-10 grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:items-start">
+
+    <div class="mt-8 grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-start">
       <div>
-        <h2 class="text-2xl font-semibold tracking-tight">Hi!</h2>
+        <h2 class="text-2xl font-semibold tracking-tight">About</h2>
         <p class="mt-4 text-sm leading-6 muted">
-          My name is Karina and I am trained dancer, singer, and actor. My first love
-          was dance, but I quickly found my love for musical theatre as well. Feel free to take
-          a look around!
+          Hi! My name is Karina and I am dancer first with lots of experience and training
+          in Musical Theatre. I love historical novels, coffee, enjoying nature, thrifting, and my
+          favorite musical is Newsies! Feel free to take a look around!
         </p>
       </div>
 
-      <!-- small “featured links” column like the reference site -->
       <div class="panel p-6">
         <h3 class="text-sm font-semibold tracking-wide">Explore</h3>
         <div class="mt-4 flex flex-col gap-3">
           <a class="btn w-fit" href="/reels">Watch Reels</a>
           <a class="btn-outline w-fit" href="/headshot-resume">Headshot + Resume</a>
-          <a class="btn-outline w-fit" href="/media">Photos + Reviews</a>
+          <a class="btn-outline w-fit" href="/stills">Production Photos</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- MEDIA PREVIEW STRIP (clickable thumbnails) -->
-  <section class="mt-16">
-    <h2 class="text-2xl font-semibold tracking-tight">Media</h2>
-    <p class="mt-2 text-sm muted">
-      Click any image to view more.
-    </p>
-
-    <!-- horizontal scroll strip -->
-    <div class="mt-6 -mx-6 px-6 overflow-x-auto no-scrollbar">
-      <div class="flex gap-4 pb-2">
-        {mediaPreview.map((m) => (
+  <section class="mt-12">
+    <div class="divider"></div>
+    <div class="mt-5 -mx-2 px-2 overflow-x-auto no-scrollbar">
+      <div class="flex gap-5 pb-2">
+        {carouselItems.map((item) => (
           <a
-            href={m.href}
-            class="group panel overflow-hidden shrink-0 w-[280px] md:w-[320px]"
-            aria-label={m.title}
+            href={item.href}
+            class="group media-frame shrink-0 w-[260px] md:w-[300px]"
+            aria-label={item.label}
           >
-            <img
-              src={m.img}
-              alt={m.title}
-              class="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-              loading="lazy"
-            />
-            <div class="p-4">
-              <p class="text-sm font-semibold">{m.title}</p>
-              <p class="mt-1 text-xs muted">Open →</p>
-            </div>
+            {item.type === "photo" ? (
+              <img
+                src={item.src}
+                alt={item.label}
+                class="w-full aspect-[3/2] object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <video
+                class="hover-play w-full aspect-[3/2] object-cover"
+                src={item.src}
+                poster={item.poster}
+                muted
+                playsinline
+                preload="metadata"
+                data-start={item.start}
+              ></video>
+            )}
           </a>
         ))}
       </div>
     </div>
+
+    <script>
+      const hoverVideos = document.querySelectorAll("video.hover-play");
+
+      hoverVideos.forEach((video) => {
+        const startTime = parseFloat(video.dataset.start || "0");
+
+        video.addEventListener("mouseenter", async () => {
+          try {
+            video.currentTime = startTime;
+            await video.play();
+          } catch (e) {}
+        });
+
+        video.addEventListener("mouseleave", () => {
+          video.pause();
+          video.currentTime = startTime;
+        });
+      });
+    </script>
   </section>
 </BaseLayout>
