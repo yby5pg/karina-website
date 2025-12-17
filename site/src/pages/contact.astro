@@ -1,37 +1,48 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const email = "your@email.com"; // change this
+const email = "karinayakubisin@gmail.com";
 ---
 <BaseLayout title="Contact — Karina Yakubisin">
-  <div class="flex justify-center mt-12">
+  <section class="mt-10 flex justify-center">
     <div class="w-full max-w-sm">
-      <h1 class="text-2xl font-semibold tracking-tight text-center">
-        Contact
-      </h1>
-      <p class="mt-2 text-sm muted text-center">
-        For bookings, auditions, or inquiries.
-      </p>
+      <h1 class="text-2xl font-semibold tracking-tight text-center">Contact</h1>
 
-      <form
-        action={`mailto:${email}`}
-        method="post"
-        enctype="text/plain"
-        class="contact-panel p-6 mt-6"
-      >
+      <form id="contactForm" class="contact-panel p-6 mt-6">
         <div class="grid gap-4">
-          <input class="input" type="text" name="name" placeholder="Name" required />
-          <input class="input" type="email" name="email" placeholder="Email" required />
-          <textarea class="input" name="message" placeholder="Message" rows="5" required></textarea>
+          <input class="input" id="name" type="text" placeholder="Name" required />
+          <input class="input" id="subject" type="text" placeholder="Subject" required />
+          <textarea class="input" id="message" placeholder="Message" rows="6" required></textarea>
 
-          <button type="submit" class="btn w-full">
-            Send Message
-          </button>
+          <button type="submit" class="btn w-full">Send</button>
 
-          <p class="text-xs muted text-center">
-            Opens your email client.
-          </p>
+          <p class="text-xs muted text-center">Opens your email client.</p>
         </div>
       </form>
     </div>
-  </div>
+  </section>
+
+  <script define:vars={{ email }}>
+    const form = document.getElementById("contactForm");
+    const nameEl = document.getElementById("name");
+    const subjectEl = document.getElementById("subject");
+    const messageEl = document.getElementById("message");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = (nameEl.value || "").trim();
+      const subject = (subjectEl.value || "").trim();
+      const message = (messageEl.value || "").trim();
+
+      // Body format: "<Name> <Message>" (no "name=" or "message=")
+      const body = `${name} ${message}`.trim();
+
+      const mailto =
+        `mailto:${encodeURIComponent(email)}` +
+        `?subject=${encodeURIComponent(subject)}` +
+        `&body=${encodeURIComponent(body)}`;
+
+      window.location.href = mailto;
+    });
+  </script>
 </BaseLayout>
