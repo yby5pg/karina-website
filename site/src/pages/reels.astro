@@ -2,29 +2,41 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const reels = [
-  { title: "Musical Theatre Reel", url: "https://youtu.be/yQz6Wmb4L60" },
-  { title: "Dance Reel", url: "https://youtu.be/TBefhc7_1pI" },
-  { title: "Acting Clip", url: "https://www.youtube.com/embed/VIDEO_ID" },
+  {
+    title: "Dance Reel",
+    youtubeId: "TBefhc7_1pI",
+  },
+  {
+    title: "Musical Theatre Reel",
+    youtubeId: "yQz6Wmb4L60",
+  },
+  {
+    title: "Morning Person Audition Cut",
+    youtubeId: "FPhmRa7JqmY",
+  },
 ];
 ---
-<BaseLayout title="Reels — Karina Yakubisin">
-  <h1 class="text-2xl font-semibold tracking-tight">Reels</h1>
 
-  <section class="mt-10 grid gap-6 md:grid-cols-2">
-    {reels.map((r) => (
-      <div class="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/30">
-        <div class="px-4 py-3 text-sm font-semibold text-neutral-200">{r.title}</div>
-        <div class="aspect-video">
-          <iframe
-            class="h-full w-full"
-            src={r.url}
-            title={r.title}
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          />
+<BaseLayout title="Reels — Karina Yakubisin">
+  <section class="mt-8">
+    <h1 class="text-2xl font-semibold tracking-tight">Reels</h1>
+
+    <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {reels.map((r) => (
+        <div class="space-y-2">
+          <div class="media-frame">
+            <iframe
+              class="w-full aspect-video"
+              src={`https://www.youtube.com/embed/${r.youtubeId}?rel=0`}
+              title={r.title}
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <p class="text-sm font-semibold">{r.title}</p>
         </div>
-      </div>
-    ))}
+      ))}
+    </div>
   </section>
 </BaseLayout>
