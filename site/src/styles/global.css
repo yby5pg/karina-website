@@ -55,15 +55,16 @@
   }
 
   .container {
-    @apply mx-auto px-30 max-w-3xl;
-  }
+  @apply w-full px-3 sm:px-6 lg:px-10 sm:mx-auto sm:max-w-3xl;
+}
 
-  /* Extra breathing room on very large screens */
-  @media (min-width: 1536px) {
-    .container {
-      max-width: 36rem; /* ~640px */
-    }
+/* Extra breathing room on very large screens */
+@media (min-width: 1536px) {
+  .container {
+    max-width: 36rem; /* ~576px */
   }
+}
+
 
   .media-frame {
   @apply relative rounded-3xl overflow-hidden border;
