@@ -8,9 +8,9 @@ const headshots = [
 ];
 
 const carouselItems = [
-  { type: "photo", src: "/slideshow/photos/14.JPEG", href: "/stills"},
-  { type: "video", src: "/slideshow/videos/Karina Yakubisin Dance Reel (1).mp4", poster: "/slideshow/photos/DanceReel.png", start: "48.1", href: "/reels"},
   { type: "photo", src: "/slideshow/photos/3.JPEG", href: "/stills"},
+  { type: "video", src: "/slideshow/videos/Karina Yakubisin Dance Reel (1).mp4", poster: "/slideshow/photos/DanceReel.png", start: "48.1", href: "/reels"},
+  { type: "photo", src: "/slideshow/photos/57.JPEG", href: "/stills"},
   { type: "video", src: "/slideshow/videos/Karina Yakubisin Musical Theatre Reel.mp4", poster: "/slideshow/photos/MTReel.png", start: "4.5", href: "/reels"},
   { type: "photo", src: "/slideshow/photos/8.JPEG", href: "/stills"},
   { type: "photo", src: "/slideshow/photos/16.JPEG", href: "/stills"},
@@ -20,21 +20,20 @@ const carouselItems = [
 <BaseLayout title="Karina Yakubisin">
   <!-- HERO: 3 headshots -->
   <section class="mt-10">
-   <div class="mt-10 -mx-2 px-2 overflow-x-auto no-scrollbar">
-  <div class="flex flex-nowrap gap-6 justify-center">
-    {headshots.map((src) => (
-      <div class="media-frame flex-1 basis-0 min-w-[160px] max-w-[410px]">
-        <img
-          src={src}
-          alt="Headshot of Karina Yakubisin"
-          class="w-full aspect-[4/5] object-cover"
-          loading="eager"
-        />
+    <div class="mt-10 overflow-x-auto no-scrollbar">
+      <div class="flex flex-nowrap gap-6 px-3 sm:px-0">
+        {headshots.map((src) => (
+          <div class="media-frame shrink-0 w-[220px] sm:w-[260px] md:w-[320px]">
+            <img
+              src={src}
+              alt="Headshot of Karina Yakubisin"
+              class="w-full aspect-[4/5] object-cover"
+              loading="eager"
+            />
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-</div>
-
+    </div>
   </section>
 
   <!-- ABOUT + LINKS -->
