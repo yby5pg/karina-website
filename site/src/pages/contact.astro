@@ -3,17 +3,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const email = "karinayakubisin@gmail.com";
 ---
 <BaseLayout title="Contact — Karina Yakubisin">
-  <section class="mt-10 flex justify-center">
+  <section class="container mt-10 flex justify-center">
     <div class="w-full max-w-sm">
-      <h1 class="text-2xl font-semibold tracking-tight text-center">Contact</h1>
+      <h1 class="mt-3 text-3xl text-center">Contact</h1>
 
-      <form id="contactForm" class="contact-panel p-6 mt-6">
+      <form id="contactForm" class="contact-panel p-6 mt-8">
         <div class="grid gap-4">
           <input class="input" id="name" type="text" placeholder="Name" required />
           <input class="input" id="subject" type="text" placeholder="Subject" required />
           <textarea class="input" id="message" placeholder="Message" rows="6" required></textarea>
 
-          <button type="submit" class="btn w-full">Send</button>
+          <div class="divider mt-2"></div>
+          <button type="submit" class="btn w-full justify-center pt-1">Send →</button>
 
           <p class="text-xs muted text-center">Opens your email client.</p>
         </div>

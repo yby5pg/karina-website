@@ -1,27 +1,29 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&display=swap');
 
 /* ============================
-   THEME TOKENS (EDIT THESE)
-   ============================ */
+   THEME TOKENS
+   ============================
+   Clean white + a single dark navy accent. No pink, no gold.
+   Edit these values to retheme the whole site. */
 :root {
   /* Backgrounds */
-  --bg: 252 248 244;        /* warm cream */
-  --surface: 255 251 247;   /* panels / cards */
+  --bg: 255 255 255;        /* white */
+  --surface: 246 246 244;   /* panels / cards, one step off white */
 
   /* Default text (USED EVERYWHERE) */
-  --text: 32 28 28;         /* off-black */
-  --muted: 92 82 82;        /* muted off-black */
+  --text: 23 23 25;         /* near-black */
+  --muted: 113 113 117;     /* muted gray */
 
-  /* Accent (pinkish maroon) */
-  --accent: 168 64 92;      /* rose-maroon */
-  --accent-hover: 190 78 110;
+  /* Accent — dark navy */
+  --accent: 23 38 68;       /* #172644 */
+  --accent-hover: 41 61 99; /* #293D63, lighter navy for hover */
+
+  /* Same accent family, but light enough to read over photos */
+  --accent-on-dark: 140 173 230; /* #8CADE6 */
 
   /* Lines / borders */
-  --line: 190 110 135;
-
-  /* Interactive text */
-  --button-text: 255 248 248;
-  --form-text: 255 248 248;
+  --line: 228 227 223;
 }
 
 /* ============================
@@ -30,19 +32,36 @@
 @layer base {
   html {
     background: rgb(var(--bg));
+    scroll-behavior: smooth;
   }
 
   body {
     background: rgb(var(--bg));
     color: rgb(var(--text));
-    font-size: 0.95rem; /* slightly smaller overall */
-    line-height: 1.45;
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
   }
-
 
   h1, h2, h3, h4, h5, h6,
   nav, header {
     color: rgb(var(--text));
+  }
+
+  h1, h2, h3 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 2px;
   }
 }
 
@@ -54,28 +73,28 @@
     @apply min-h-screen antialiased;
   }
 
+  /* Comfortable content width — wide enough for big photos to breathe */
   .container {
-  @apply w-full px-3 sm:px-6 lg:px-10 sm:mx-auto sm:max-w-3xl;
-}
-
-/* Extra breathing room on very large screens */
-@media (min-width: 1536px) {
-  .container {
-    max-width: 36rem; /* ~576px */
+    @apply w-full px-5 sm:px-8 lg:px-12 mx-auto max-w-6xl;
   }
-}
 
+  /* Break a section out of .container to span the full viewport width */
+  .bleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
 
   .media-frame {
-  @apply relative rounded-3xl overflow-hidden border;
-  border-color: rgb(var(--line));
-  padding: 0;
-}
+    @apply relative rounded-xl overflow-hidden border;
+    border-color: rgb(var(--line));
+    background: rgb(var(--surface));
+    padding: 0;
+  }
 
-.media-frame .overlay {
-  pointer-events: none;
-}
-
+  .media-frame .overlay {
+    pointer-events: none;
+  }
 
   .divider {
     height: 1px;
@@ -85,81 +104,112 @@
   .panel {
     background: rgb(var(--surface));
     border: 1px solid rgb(var(--line));
-    @apply rounded-3xl;
+    @apply rounded-xl;
   }
 
   .muted {
     color: rgb(var(--muted));
   }
 
+  .eyebrow {
+    @apply text-xs font-semibold uppercase;
+    letter-spacing: 0.22em;
+    color: rgb(var(--accent));
+  }
+
   /* ============================
-     BUTTONS (DIFFERENT TEXT)
+     TEXT LINKS — no pills, no outlines.
+     Just text that changes color on hover.
      ============================ */
   .btn {
-    background: rgb(var(--accent));
-    color: rgb(var(--button-text));
-    @apply inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold transition;
+    @apply inline-flex items-center gap-1.5 text-sm font-semibold transition-colors;
+    color: rgb(var(--text));
   }
 
   .btn:hover {
-    background: rgb(var(--accent-hover));
-  }
-
-  .btn-outline {
-    border: 1px solid rgb(var(--accent));
     color: rgb(var(--accent));
-    @apply inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold transition;
   }
 
-  .btn-outline:hover {
-    background: rgb(var(--accent));
-    color: rgb(var(--button-text));
+  /* Header nav: change only text color on hover (no padding/background). */
+  header nav a.btn {
+    transition: color 160ms ease;
+  }
+
+  header nav a.btn:hover {
+    color: rgb(var(--accent-on-dark));
+  }
+
+  /* Same idea, but for text sitting on top of a photo (hero, image overlays)
+     where the page's dark-on-light accent wouldn't read well. */
+  .btn-on-dark {
+    @apply inline-flex items-center gap-1.5 text-sm font-semibold transition-colors;
+    color: rgb(246 243 237);
+  }
+
+  .btn-on-dark:hover {
+    color: rgb(var(--accent-on-dark));
+  }
+
+  /* Quiet text link with an arrow that nudges on hover */
+  .link-arrow {
+    @apply inline-flex items-center gap-2 text-sm font-semibold transition-colors;
+    color: rgb(var(--text));
+  }
+
+  .link-arrow svg {
+    transition: transform 0.2s ease;
+  }
+
+  .link-arrow:hover {
+    color: rgb(var(--accent));
+  }
+
+  .link-arrow:hover svg {
+    transform: translateX(4px);
   }
 
   /* ============================
-     CONTACT FORM (DIFFERENT TEXT)
+     CONTACT FORM
      ============================ */
   .contact-panel {
-    background: rgb(var(--accent));
-    color: rgb(var(--form-text));
-    @apply rounded-3xl;
+    background: rgb(var(--surface));
+    border: 1px solid rgb(var(--line));
+    color: rgb(var(--text));
+    @apply rounded-xl;
   }
 
   .contact-panel .muted {
-    color: rgb(245 215 225);
+    color: rgb(var(--muted));
   }
 
   .input {
-    background: transparent;
-    border: 1px solid rgb(245 215 225);
-    color: rgb(var(--form-text));
-    @apply w-full rounded-lg px-4 py-2 text-sm outline-none transition;
+    background: rgb(var(--bg));
+    border: 1px solid rgb(var(--line));
+    color: rgb(var(--text));
+    @apply w-full rounded-lg px-4 py-3 text-sm outline-none transition;
   }
 
   .input::placeholder {
-    color: rgb(245 215 225);
+    color: rgb(var(--muted));
   }
 
   .input:focus {
-    border-color: white;
+    border-color: rgb(var(--accent));
   }
 }
 
 /* ============================
    SCROLLBAR CLEANUP
    ============================ */
-
-/* Hide scrollbars globally (still scrollable) */
 * {
-  scrollbar-width: none;          /* Firefox */
-  -ms-overflow-style: none;       /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 *::-webkit-scrollbar {
-  display: none;                  /* Chrome/Safari */
+  display: none;
 }
 
-/* Horizontal scroll container helper */
 .no-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -174,5 +224,6 @@
 }
 
 .snap-item {
+  scroll-align: start;
   scroll-snap-align: start;
 }

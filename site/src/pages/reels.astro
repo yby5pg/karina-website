@@ -3,15 +3,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const reels = [
   {
-    title: "Dance Reel 2025",
-    youtubeId: "TBefhc7_1pI",
-  },
-  {
     title: "Dance Reel 2026",
     youtubeId: "AE_mTcFa9jw",
   },
   {
-    title: "It Only Takes a Moment - Hello Dolly",
+    title: "'You Phoebe Me' - As You Like It",
+    youtubeId: "8qf-4amKE0M",
+  },
+  {
+    title: "Dance Reel 2025",
+    youtubeId: "TBefhc7_1pI",
+  },
+  {
+    title: "It Only Takes a Moment — Hello Dolly",
     youtubeId: "ZqAKQenhasQ",
   },
   {
@@ -22,12 +26,14 @@ const reels = [
 ---
 
 <BaseLayout title="Reels — Karina Yakubisin">
-  <section class="mt-8">
-    <h1 class="text-2xl font-semibold tracking-tight">Reels</h1>
+  <section class="container mt-10">
+    <h1 class="mt-3 text-3xl md:text-4xl">Reels</h1>
+  </section>
 
-    <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <section class="container mt-8 mb-16">
+    <div class="grid gap-8 md:grid-cols-2">
       {reels.map((r) => (
-        <div class="space-y-2">
+        <div>
           <div class="media-frame">
             <iframe
               class="w-full aspect-video"
@@ -38,7 +44,7 @@ const reels = [
               allowfullscreen
             ></iframe>
           </div>
-          <p class="text-sm font-semibold">{r.title}</p>
+          <p class="mt-3 text-sm font-semibold">{r.title}</p>
         </div>
       ))}
     </div>

@@ -2,23 +2,30 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const photos = [
-  "/images/productions/54.JPEG",
-  "/images/productions/33.jpeg",
-  "/images/productions/3.JPEG",
-  "/images/productions/27.JPEG",
+  "/images/productions/79.jpg",
   "/images/productions/18.JPEG",
+  "/images/productions/59.jpg",
+  "/images/productions/33.jpeg",
+  "/images/productions/67.jpg",
+  "/images/productions/3.JPEG",
+  "/images/productions/75.jpg",
+  "/images/productions/27.JPEG",
+  "/images/productions/54.JPEG",
   "/images/productions/47.jpeg",
   "/images/productions/14.JPEG",
   "/images/productions/31.jpeg",
   "/images/productions/55.jpeg",
+  "/images/productions/61.jpg",
   "/images/productions/22.JPEG",
   "/images/productions/4.JPEG",
   "/images/productions/1.PNG",
   "/images/productions/15.JPEG",
   "/images/productions/2.JPEG",
+  "/images/productions/66.jpg",
   "/images/productions/8.JPEG",
   "/images/productions/52.jpeg",
   "/images/productions/42.png",
+  "/images/productions/62.jpg",
   "/images/productions/58.jpeg",
   "/images/productions/34.jpeg",
   "/images/productions/48.jpeg",
@@ -30,7 +37,7 @@ const photos = [
   "/images/productions/30.jpeg",
   "/images/productions/24.JPEG",
   "/images/productions/46.jpeg",
-  "/images/productions/37.png",
+  "/images/productions/76.jpg",
   "/images/productions/51.png",
   "/images/productions/44.png",
   "/images/productions/56.jpeg",
@@ -42,8 +49,8 @@ const photos = [
   "/images/productions/35.jpeg",
   "/images/productions/28.JPEG",
   "/images/productions/45.png",
-  "/images/productions/38.png",
   "/images/productions/12.JPEG",
+  "/images/productions/77.jpg",
   "/images/productions/50.jpeg",
   "/images/productions/43.png",
   "/images/productions/57.JPEG",
@@ -53,6 +60,7 @@ const photos = [
   "/images/productions/17.JPEG",
   "/images/productions/7.JPEG",
   "/images/productions/29.JPEG",
+  "/images/productions/60.jpg",
   "/images/productions/23.JPEG",
   "/images/productions/16.JPEG",
   "/images/productions/21.JPEG",
@@ -60,25 +68,35 @@ const photos = [
   "/images/productions/26.JPEG",
   "/images/productions/13.JPEG",
 ];
+
+// Deterministic mosaic pattern — every 9th photo is a big feature tile,
+// every 4th (offset) is wide, the rest are normal squares. Keeps the
+// grid feeling lively without hand-curating 58 photos.
+function sizeFor(i) {
+  if (i % 9 === 0) return "tile-feature";
+  if (i % 4 === 0) return "tile-wide";
+  return "tile-normal";
+}
 ---
 
 <BaseLayout title="Stills — Karina Yakubisin">
-  <h1 class="text-2xl font-semibold tracking-tight">Stills</h1>
-  <p class="mt-2 text-sm muted">Click any photo to view full size.</p>
+  <section class="container mt-10">
+    <h1 class="mt-3 text-3xl md:text-4xl">Stills</h1>
+  </section>
 
-  <section class="mt-8">
-    <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
+  <section class="container mt-8 mb-16">
+    <div class="stills-grid">
       {photos.map((src, idx) => (
         <button
           type="button"
-          class="group overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/30 text-left"
+          class={`stills-tile ${sizeFor(idx)}`}
           data-idx={idx}
           aria-label={`Open photo ${idx + 1}`}
         >
           <img
             src={src}
             alt="Production photo"
-            class="w-full aspect-square object-cover"
+            class="w-full h-full object-cover"
             loading="lazy"
           />
         </button>
@@ -159,10 +177,72 @@ const photos = [
   </script>
 
   <style>
+    /* ---- Mosaic grid ---- */
+    .stills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .stills-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .stills-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stills-tile {
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid rgb(var(--line));
+      background: rgb(var(--surface));
+      padding: 0;
+      cursor: pointer;
+      aspect-ratio: 1 / 1; /* force square tiles */
+    }
+
+    .stills-tile img {
+      display: block;
+      transition: transform 0.5s ease, filter 0.5s ease;
+    }
+
+    .stills-tile:hover img {
+      transform: scale(1.06);
+    }
+
+    .stills-tile::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      border: 0px solid rgb(var(--accent));
+      transition: border-width 0.2s ease;
+      pointer-events: none;
+    }
+
+    .stills-tile:hover::after {
+      border-width: 3px;
+    }
+
+    /* Neutralize mosaic spans so every tile remains a single square */
+    .tile-wide,
+    .tile-feature {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+
+    /* ---- Lightbox ---- */
     .lb { position: fixed; inset: 0; z-index: 50; }
     .lb.hidden { display: none; }
 
-    .lb-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.7); }
+    .lb-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.85); }
 
     .lb-panel {
       position: relative;
@@ -173,12 +253,12 @@ const photos = [
     }
 
     .lb-img {
-      max-width: min(92vw, 1200px);
+      max-width: min(92vw, 1300px);
       max-height: 86vh;
-      border-radius: 18px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
       cursor: pointer;
-      background: #fff;
+      background: rgb(var(--surface));
     }
 
     .lb-close {
@@ -189,10 +269,17 @@ const photos = [
       height: 44px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
       color: white;
       font-size: 18px;
       line-height: 1;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .lb-close:hover,
+    .lb-nav:hover {
+      border-color: rgb(var(--accent));
+      color: rgb(var(--accent));
     }
 
     .lb-nav {
@@ -203,7 +290,7 @@ const photos = [
       height: 52px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
       color: white;
       font-size: 34px;
       line-height: 1;
@@ -220,10 +307,11 @@ const photos = [
       transform: translateX(-50%);
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.25);
       color: white;
       font-size: 12px;
+      letter-spacing: 0.05em;
     }
   </style>
 </BaseLayout>

@@ -1,120 +1,367 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const headshots = [
-  "/images/headshots/headshot1.JPG",
-  "/images/headshots/headshot2.JPG",
-  "/images/headshots/headshot3.JPG",
+// Big landscape photos for the hero slideshow
+const heroPhotos = [
+  "/images/productions/63.jpg",
+  "/slideshow/photos/3.JPEG",
+  "/images/productions/42.png",
+  "/slideshow/photos/8.JPEG",
+  "/slideshow/photos/16.JPEG",
+  "/images/productions/66.jpg",
 ];
 
-const carouselItems = [
-  { type: "photo", src: "/slideshow/photos/3.JPEG", href: "/stills"},
-  { type: "video", src: "/slideshow/videos/Karina Yakubisin Dance Reel (1).mp4", poster: "/slideshow/photos/DanceReel.png", start: "48.1", href: "/reels"},
-  { type: "photo", src: "/slideshow/photos/57.JPEG", href: "/stills"},
-  { type: "video", src: "/slideshow/videos/Karina Yakubisin Musical Theatre Reel.mp4", poster: "/slideshow/photos/MTReel.png", start: "4.5", href: "/reels"},
-  { type: "photo", src: "/slideshow/photos/8.JPEG", href: "/stills"},
-  { type: "photo", src: "/slideshow/photos/16.JPEG", href: "/stills"},
+const portrait = "/images/headshots/headshot1.JPG";
+
+const reelTeasers = [
+  {
+    title: "Dance Reel 2025",
+    src: "/slideshow/videos/Karina Yakubisin Dance Reel (1).mp4",
+    poster: "/slideshow/photos/DanceReel.png",
+    start: "48.1",
+  },
+  {
+    title: "'You Phoebe Me' - As You Like It",
+    src: "/slideshow/videos/Karina Yakubisin Musical Theatre Reel.mp4",
+    poster: "/slideshow/photos/MTReel.png",
+    start: "4.5",
+  },
 ];
 ---
 
 <BaseLayout title="Karina Yakubisin">
-  <!-- HERO: 3 headshots -->
-  <section class="mt-10">
-    <div class="mt-10 overflow-x-auto no-scrollbar">
-      <div class="flex flex-nowrap gap-6 px-3 sm:px-0">
-        {headshots.map((src) => (
-          <div class="media-frame shrink-0 w-[220px] sm:w-[260px] md:w-[320px]">
-            <img
-              src={src}
-              alt="Headshot of Karina Yakubisin"
-              class="w-full aspect-[4/5] object-cover"
-              loading="eager"
-            />
-          </div>
-        ))}
+  <!-- HERO: full-bleed cinematic slideshow -->
+  <section class="bleed hero" id="hero" aria-label="Photo slideshow">
+    <div class="hero-slides">
+      {heroPhotos.map((src, i) => (
+        <img
+          src={src}
+          alt="Karina Yakubisin"
+          class="hero-slide"
+          data-i={i}
+          loading={i === 0 ? "eager" : "lazy"}
+        />
+      ))}
+    </div>
+
+    <div class="hero-scrim"></div>
+
+    <div class="hero-content">
+      <p class="eyebrow hero-eyebrow">Dancer &middot; Singer &middot; Actor</p>
+      <h1 class="hero-title">Karina<br />Yakubisin</h1>
+      <div class="hero-ctas">
+        <a class="btn-on-dark" href="/reels">Reels</a>
+        <span class="hero-divider" aria-hidden="true"></span>
+        <a class="btn-on-dark" href="/stills">Photos</a>
       </div>
+    </div>
+
+    <div class="hero-controls">
+      <button type="button" class="hero-arrow" data-hero-prev aria-label="Previous photo">‹</button>
+      <span class="hero-count" id="heroCount">01 / 0{heroPhotos.length}</span>
+      <button type="button" class="hero-arrow" data-hero-next aria-label="Next photo">›</button>
     </div>
   </section>
 
-  <!-- ABOUT + LINKS -->
-  <section class="mt-12">
-    <div class="divider"></div>
-
-    <div class="mt-8 grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-start">
-      <div>
-        <h2 class="text-2xl font-semibold tracking-tight">About</h2>
-        <p class="mt-4 text-sm leading-6 muted">
-          Hi! My name is Karina and I am currently making my professional debut as Hannah in Newsies at Virginia 
-          Theatre Festival. I am a recent grad of the University of Virginia where I studied Drama and spent my 
-          time dancing in Jazz and Lyrical styles for the Virginia Dance Company, choregraphing shows like Legally Blonde
-          and Catch Me if You Can for UVA's First Year Players, and performing in shows such as As You Like It and Natasha, Pierre,
-          and the Great Comet of 1812. I love historical novels, coffee, enjoying nature, thrifting, pilates, and exploring new 
-          cities. Feel free to take a look around!
-        </p>
+  <!-- ABOUT -->
+  <section class="container mt-20 md:mt-28">
+    <div class="grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-center">
+      <div class="media-frame order-1 md:order-none max-w-[280px] md:max-w-none">
+        <img
+          src={portrait}
+          alt="Headshot of Karina Yakubisin"
+          class="w-full aspect-[4/5] object-cover"
+          loading="lazy"
+        />
       </div>
 
-      <div class="panel p-6">
-        <h3 class="text-sm font-semibold tracking-wide">Explore</h3>
-        <div class="mt-4 flex flex-col gap-3">
-          <a class="btn w-fit" href="/reels">Watch Reels</a>
-          <a class="btn-outline w-fit" href="/headshot-resume">Headshot + Resume</a>
-          <a class="btn-outline w-fit" href="/stills">Production Photos</a>
+      <div>
+        <h2 class="mt-3 text-3xl md:text-4xl">Hi, I'm Karina!</h2>
+        <p class="mt-5 leading-7 muted max-w-prose">
+          I'm currently making my professional debut as Hannah in <em>Newsies</em> at Virginia
+          Theatre Festival. I'm a recent UVA grad where I studied Drama and danced Jazz and
+          Lyrical with the Virginia Dance Company &mdash; choreographing shows like <em>Legally
+          Blonde</em> and <em>Catch Me If You Can</em>, and performing in <em>As You Like It</em>
+          and <em>Natasha, Pierre &amp; The Great Comet of 1812</em>. In my free time I love to read historical
+          novels, get coffee, thrift, and explore new cities.
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-3">
+          <a class="link-arrow" href="/headshot-resume">
+            Headshot + Resume
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="link-arrow" href="/stills">
+            Production Photos
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="link-arrow" href="/contact">
+            Get in Touch
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="mt-12">
+  <!-- REEL PREVIEW -->
+  <section class="container mt-20 md:mt-28 mb-24">
     <div class="divider"></div>
-    <div class="mt-5 -mx-2 px-2 overflow-x-auto no-scrollbar">
-      <div class="flex gap-5 pb-2">
-        {carouselItems.map((item) => (
-          <a
-            href={item.href}
-            class="group media-frame shrink-0 w-[260px] md:w-[300px]"
-            aria-label={item.label}
-          >
-            {item.type === "photo" ? (
-              <img
-                src={item.src}
-                alt={item.label}
-                class="w-full aspect-[3/2] object-cover"
-                loading="lazy"
-              />
-            ) : (
-              <video
-                class="hover-play w-full aspect-[3/2] object-cover"
-                src={item.src}
-                poster={item.poster}
-                muted
-                playsinline
-                preload="metadata"
-                data-start={item.start}
-              ></video>
-            )}
-          </a>
-        ))}
+    <div class="mt-10 flex items-end justify-between gap-4">
+      <div>
+        <h2 class="mt-3 text-2xl md:text-3xl">Reels</h2>
       </div>
+      <a class="link-arrow shrink-0" href="/reels">
+        All Reels
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
 
-    <script>
-      const hoverVideos = document.querySelectorAll("video.hover-play");
-
-      hoverVideos.forEach((video) => {
-        const startTime = parseFloat(video.dataset.start || "0");
-
-        video.addEventListener("mouseenter", async () => {
-          try {
-            video.currentTime = startTime;
-            await video.play();
-          } catch (e) {}
-        });
-
-        video.addEventListener("mouseleave", () => {
-          video.pause();
-          video.currentTime = startTime;
-        });
-      });
-    </script>
+    <div class="mt-8 grid gap-6 sm:grid-cols-2">
+      {reelTeasers.map((r) => (
+        <a href="/reels" class="group media-frame block">
+          <video
+            class="hover-play w-full aspect-video object-cover"
+            src={r.src}
+            poster={r.poster}
+            muted
+            playsinline
+            preload="metadata"
+            data-start={r.start}
+          ></video>
+          <div class="absolute inset-0 flex items-end p-5 bg-gradient-to-t from-black/60 via-black/0 to-black/0">
+            <p class="text-sm font-semibold text-white">{r.title}</p>
+          </div>
+        </a>
+      ))}
+    </div>
   </section>
+
+  <script>
+    // ---- Hero slideshow ----
+    const heroSlides = document.querySelectorAll(".hero-slide");
+    const heroCount = document.getElementById("heroCount");
+    const prevBtn = document.querySelector("[data-hero-prev]");
+    const nextBtn = document.querySelector("[data-hero-next]");
+    const total = heroSlides.length;
+    let activeIndex = 0;
+    let timer;
+
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function classifySlide(slide) {
+      if (slide.naturalWidth && slide.naturalHeight) {
+        const isPortrait = slide.naturalHeight > slide.naturalWidth;
+        slide.classList.toggle("is-portrait", isPortrait);
+        slide.classList.toggle("is-landscape", !isPortrait);
+        return;
+      }
+
+      slide.addEventListener("load", () => classifySlide(slide), { once: true });
+    }
+
+    function render() {
+      heroSlides.forEach((slide, i) => {
+        slide.classList.toggle("is-active", i === activeIndex);
+      });
+      if (heroCount) heroCount.textContent = `${pad(activeIndex + 1)} / ${pad(total)}`;
+    }
+
+    function go(delta) {
+      activeIndex = (activeIndex + delta + total) % total;
+      render();
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      timer = window.setInterval(() => go(1), 5500);
+    }
+
+    function stopAutoplay() {
+      if (timer) window.clearInterval(timer);
+    }
+
+    heroSlides.forEach((slide) => classifySlide(slide));
+
+    if (total > 0) {
+      render();
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reducedMotion) startAutoplay();
+
+      const heroEl = document.getElementById("hero");
+      heroEl?.addEventListener("mouseenter", stopAutoplay);
+      heroEl?.addEventListener("mouseleave", () => {
+        if (!reducedMotion) startAutoplay();
+      });
+
+      prevBtn?.addEventListener("click", () => {
+        go(-1);
+        stopAutoplay();
+      });
+      nextBtn?.addEventListener("click", () => {
+        go(1);
+        stopAutoplay();
+      });
+    }
+
+    // ---- Reel hover-play previews ----
+    const hoverVideos = document.querySelectorAll("video.hover-play");
+
+    hoverVideos.forEach((video) => {
+      const startTime = parseFloat(video.dataset.start || "0");
+
+      video.addEventListener("mouseenter", async () => {
+        try {
+          video.currentTime = startTime;
+          await video.play();
+        } catch (e) {}
+      });
+
+      video.addEventListener("mouseleave", () => {
+        video.pause();
+        video.currentTime = startTime;
+      });
+    });
+  </script>
+
+  <style>
+    .hero {
+      position: relative;
+      height: 70vh;
+      min-height: 460px;
+      overflow: hidden;
+      background: #000000;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        height: 88vh;
+      }
+    }
+
+    .hero-slides {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      transform: scale(1);
+      opacity: 0;
+      transition: opacity 1.1s ease, transform 1.1s ease;
+    }
+
+    .hero-slide.is-active {
+      opacity: 1;
+    }
+
+    .hero-slide.is-portrait {
+      object-fit: cover;
+      transform: scale(1.04);
+    }
+
+    .hero-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(13, 12, 11, 0.25) 0%,
+        rgba(13, 12, 11, 0.15) 35%,
+        rgba(13, 12, 11, 0.85) 100%
+      );
+    }
+
+    .hero-content {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 1.75rem 1.25rem 5rem;
+      color: rgb(246 243 237);
+    }
+
+    @media (min-width: 768px) {
+      .hero-content {
+        padding: 0 3rem 6rem;
+        max-width: 56rem;
+      }
+    }
+
+    .hero-eyebrow {
+      color: rgb(var(--accent-on-dark));
+    }
+
+    .hero-title {
+      margin-top: 0.5rem;
+      font-family: "Fraunces", serif;
+      font-weight: 600;
+      font-size: clamp(2.75rem, 9vw, 6.5rem);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      color: rgb(246 243 237);
+    }
+
+    .hero-ctas {
+      margin-top: 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-divider {
+      width: 1px;
+      height: 16px;
+      background: rgba(246, 243, 237, 0.35);
+    }
+
+    .hero-controls {
+      position: absolute;
+      right: 1.25rem;
+      bottom: 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      color: rgb(246 243 237);
+    }
+
+    @media (min-width: 768px) {
+      .hero-controls {
+        right: 3rem;
+      }
+    }
+
+    .hero-arrow {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid rgba(246, 243, 237, 0.35);
+      background: rgba(13, 12, 11, 0.35);
+      color: inherit;
+      font-size: 1.25rem;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .hero-arrow:hover {
+      border-color: rgb(var(--accent-on-dark));
+      color: rgb(var(--accent-on-dark));
+    }
+
+    .hero-count {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      font-variant-numeric: tabular-nums;
+      opacity: 0.85;
+    }
+  </style>
 </BaseLayout>

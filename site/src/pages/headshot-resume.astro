@@ -2,22 +2,19 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 <BaseLayout title="Headshot + Resume — Karina Yakubisin">
-<section class="mt-8 flex justify-center">
-  <div class="space-y-6">
-    <!-- Heading aligned with media block -->
-    <h1 class="text-2xl font-semibold tracking-tight">
-      Headshot + Resume
-    </h1>
+  <section class="container mt-10">
+    <h1 class="mt-3 text-3xl md:text-4xl">Headshot + Resume</h1>
+  </section>
 
-    <!-- Media row -->
-    <div class="grid gap-6 sm:grid-cols-2">
+  <section class="container mt-8 mb-16">
+    <div class="grid gap-6 sm:grid-cols-2 max-w-2xl">
       <!-- Headshot -->
       <a
         href="/downloads/karina-yakubisin-headshot.jpg"
         download
-        class="group justify-self-center"
+        class="group block"
       >
-        <div class="media-frame w-full max-w-[260px]">
+        <div class="media-frame w-full">
           <img
             src="/images/headshots/main.jpg"
             alt="Headshot of Karina Yakubisin"
@@ -25,36 +22,34 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             loading="eager"
           />
 
-          <!-- hover overlay -->
           <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <div class="absolute inset-0 bg-black/20"></div>
-            <span class="relative btn">Download</span>
+            <div class="absolute inset-0 bg-black/40"></div>
+            <span class="relative btn-on-dark">Download</span>
           </div>
         </div>
+        <p class="mt-3 text-sm font-semibold">Headshot</p>
       </a>
 
       <!-- Resume -->
       <a
         href="/KarinaYakubisinResume.pdf"
         download
-        class="group justify-self-center"
+        class="group block"
       >
-        <div class="media-frame w-full max-w-[260px]">
+        <div class="media-frame w-full">
           <img
             src="/images/resume.png"
             alt="Resume"
             class="w-full aspect-[8.5/11] object-contain bg-white"
           />
 
-          <!-- hover overlay -->
           <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <div class="absolute inset-0 bg-black/20"></div>
-            <span class="relative btn">Download</span>
+            <div class="absolute inset-0 bg-black/40"></div>
+            <span class="relative btn-on-dark">Download</span>
           </div>
         </div>
+        <p class="mt-3 text-sm font-semibold">Resume</p>
       </a>
     </div>
-  </div>
-</section>
-
+  </section>
 </BaseLayout>

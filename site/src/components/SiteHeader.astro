@@ -1,32 +1,20 @@
 ---
 const links = [
   { href: "/", label: "Home" },
-  { href: "/headshot-resume", label: "H + R" },
+  { href: "/headshot-resume", label: "Headshot + Resume" },
   { href: "/reels", label: "Reels" },
   { href: "/stills", label: "Stills" },
   { href: "/contact", label: "Contact" },
 ];
 ---
-<header class="flex flex-col items-center text-center space-y-6">
-  <!-- TEXT BLOCK (controls width) -->
-  <div class="inline-block">
-    <a href="/" class="block">
-      <h1 class="text-5xl md:text-6xl font-semibold tracking-tight">
-        Karina Yakubisin
-      </h1>
-      <p class="mt-2 text-lg md:text-xl muted">
-        Dancer • Singer • Actor
-      </p>
-    </a>
-
-    <!-- Accent line that matches text width -->
-    <div class="mt-4 h-px w-full divider"></div>
+<header class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <div class="text-center sm:text-left">
+    <p class="eyebrow">Karina Yakubisin</p>
   </div>
 
-  <!-- NAV BUTTONS -->
-  <nav class="flex flex-wrap justify-center gap-3">
+  <nav class="flex flex-wrap justify-center gap-3 text-sm font-semibold">
     {links.map((l) => (
-      <a href={l.href} class="btn-outline">
+      <a href={l.href} class="btn">
         {l.label}
       </a>
     ))}
