@@ -1,8 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { client, urlFor } from "../lib/sanity";
 
-// Big landscape photos for the hero slideshow
-const heroPhotos = [
+// Fallback arrays/strings in case Sanity data hasn't been added yet
+const defaultHeroPhotos = [
   "/images/productions/63.jpg",
   "/slideshow/photos/3.JPEG",
   "/images/productions/42.png",
@@ -10,12 +11,57 @@ const heroPhotos = [
   "/slideshow/photos/16.JPEG",
   "/images/productions/66.jpg",
 ];
+const defaultPortrait = "/images/headshots/headshot1.JPG";
 
-const portrait = "/images/headshots/headshot1.JPG";
+// 1. Fetch production stills where isHero (or hero) is explicitly set to true
+const heroStillsData = await client.fetch(
+  `*[_type == "still" && (isHero == true || hero == true)] { image }`
+);
+
+let heroPhotos: string[] = [];
+
+if (heroStillsData && heroStillsData.length > 0) {
+  heroPhotos = heroStillsData
+    .map((item: any) => {
+      if (item?.image) {
+        try {
+          return urlFor(item.image).width(1600).auto("format").quality(85).url();
+        } catch (e) {
+          console.error("Hero image URL error:", e);
+        }
+      }
+      return null;
+    })
+    .filter((url): url is string => Boolean(url));
+}
+
+// Only use default fallback photos if zero hero stills are tagged in Sanity
+if (heroPhotos.length === 0) {
+  heroPhotos = defaultHeroPhotos;
+}
+
+// 2. Fetch headshot from the headshotResume document
+const headshotData = await client.fetch(
+  `*[_type == "headshotResume"][0] { headshot }`
+);
+
+let portrait = defaultPortrait;
+
+if (headshotData?.headshot) {
+  try {
+    portrait = urlFor(headshotData.headshot)
+      .width(800)
+      .auto("format")
+      .quality(80)
+      .url();
+  } catch (e) {
+    console.error("Portrait image URL error:", e);
+  }
+}
 
 const reelTeasers = [
   {
-    title: "Dance Reel 2025",
+    title: "Dance Reel 2026",
     src: "/slideshow/videos/Karina Yakubisin Dance Reel (1).mp4",
     poster: "/slideshow/photos/dancereelcoverphoto.png",
     start: "48.1",
@@ -40,6 +86,8 @@ const reelTeasers = [
           class="hero-slide"
           data-i={i}
           loading={i === 0 ? "eager" : "lazy"}
+          decoding={i === 0 ? "sync" : "async"}
+          fetchpriority={i === 0 ? "high" : "auto"}
         />
       ))}
     </div>
@@ -58,7 +106,7 @@ const reelTeasers = [
 
     <div class="hero-controls">
       <button type="button" class="hero-arrow" data-hero-prev aria-label="Previous photo">‹</button>
-      <span class="hero-count" id="heroCount">01 / 0{heroPhotos.length}</span>
+      <span class="hero-count" id="heroCount">01 / {String(heroPhotos.length).padStart(2, "0")}</span>
       <button type="button" class="hero-arrow" data-hero-next aria-label="Next photo">›</button>
     </div>
   </section>
@@ -72,6 +120,7 @@ const reelTeasers = [
           alt="Headshot of Karina Yakubisin"
           class="w-full aspect-[4/5] object-cover"
           loading="lazy"
+          decoding="async"
         />
       </div>
 

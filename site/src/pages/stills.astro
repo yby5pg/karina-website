@@ -1,316 +1,62 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { client, urlFor } from "../lib/sanity";
 
-const photos = [
-  "/images/productions/79.jpg",
-  "/images/productions/18.JPEG",
-  "/images/productions/33.jpeg",
-  "/images/productions/67.jpg",
-  "/images/productions/3.JPEG",
-  "/images/productions/75.jpg",
-  "/images/productions/27.JPEG",
-  "/images/productions/54.JPEG",
-  "/images/productions/47.jpeg",
-  "/images/productions/14.JPEG",
-  "/images/productions/31.jpeg",
-  "/images/productions/55.jpeg",
-  "/images/productions/61.jpg",
-  "/images/productions/22.JPEG",
-  "/images/productions/4.JPEG",
-  "/images/productions/1.PNG",
-  "/images/productions/15.JPEG",
-  "/images/productions/2.JPEG",
-  "/images/productions/66.jpg",
-  "/images/productions/8.JPEG",
-  "/images/productions/52.jpeg",
-  "/images/productions/42.png",
-  "/images/productions/62.jpg",
-  "/images/productions/58.jpeg",
-  "/images/productions/34.jpeg",
-  "/images/productions/48.jpeg",
-  "/images/productions/39.jpeg",
-  "/images/productions/19.JPEG",
-  "/images/productions/41.jpeg",
-  "/images/productions/5.JPEG",
-  "/images/productions/53.JPEG",
-  "/images/productions/30.jpeg",
-  "/images/productions/24.JPEG",
-  "/images/productions/46.jpeg",
-  "/images/productions/76.jpg",
-  "/images/productions/51.png",
-  "/images/productions/44.png",
-  "/images/productions/56.jpeg",
-  "/images/productions/9.JPEG",
-  "/images/productions/32.jpeg",
-  "/images/productions/49.jpeg",
-  "/images/productions/40.jpeg",
-  "/images/productions/20.JPEG",
-  "/images/productions/35.jpeg",
-  "/images/productions/28.JPEG",
-  "/images/productions/45.png",
-  "/images/productions/12.JPEG",
-  "/images/productions/77.jpg",
-  "/images/productions/50.jpeg",
-  "/images/productions/43.png",
-  "/images/productions/57.JPEG",
-  "/images/productions/6.JPEG",
-  "/images/productions/36.jpeg",
-  "/images/productions/25.JPEG",
-  "/images/productions/17.JPEG",
-  "/images/productions/7.JPEG",
-  "/images/productions/29.JPEG",
-  "/images/productions/60.jpg",
-  "/images/productions/23.JPEG",
-  "/images/productions/16.JPEG",
-  "/images/productions/21.JPEG",
-  "/images/productions/10.JPEG",
-  "/images/productions/26.JPEG",
-  "/images/productions/13.JPEG",
-];
+// Query plain raw image field from Sanity
+const sanityStills = await client.fetch(`*[_type == "still"]`);
 
-// Deterministic mosaic pattern — every 9th photo is a big feature tile,
-// every 4th (offset) is wide, the rest are normal squares. Keeps the
-// grid feeling lively without hand-curating 58 photos.
-function sizeFor(i) {
-  if (i % 9 === 0) return "tile-feature";
-  if (i % 4 === 0) return "tile-wide";
-  return "tile-normal";
-}
+// Quick console log during development (visible in terminal running `npm run dev`)
+console.log("Sanity Stills Fetch:", sanityStills);
+
+const stills =
+  sanityStills && sanityStills.length > 0
+    ? sanityStills.map((item: any) => {
+        let imageUrl = "";
+        
+        if (item?.image?.asset) {
+          try {
+            imageUrl = urlFor(item.image).width(800).auto('format').url();
+          } catch (e) {
+            console.error("Url generation error:", e);
+          }
+        }
+
+        return {
+          id: item._id,
+          src: imageUrl,
+          rawImage: item.image,
+        };
+      })
+    : [];
 ---
 
-<BaseLayout title="Stills — Karina Yakubisin">
-  <section class="container mt-10">
-    <h1 class="mt-3 text-3xl md:text-4xl">Stills</h1>
-  </section>
+<BaseLayout title="Production Stills | Karina Yakubisin">
+  <section class="container mt-12 md:mt-20 mb-24">
+    <h1 class="text-4xl md:text-5xl font-semibold">Production Stills</h1>
 
-  <section class="container mt-8 mb-16">
-    <div class="stills-grid">
-      {photos.map((src, idx) => (
-        <button
-          type="button"
-          class={`stills-tile ${sizeFor(idx)}`}
-          data-idx={idx}
-          aria-label={`Open photo ${idx + 1}`}
-        >
-          <img
-            src={src}
-            alt="Production photo"
-            class="w-full h-full object-cover"
-            loading="lazy"
-          />
-        </button>
+    {stills.length === 0 && (
+      <p class="mt-8 text-neutral-500">No stills found or failed to fetch from Sanity.</p>
+    )}
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {stills.map((still: any) => (
+        <div class="media-frame group overflow-hidden border border-neutral-200 dark:border-neutral-800 rounded-lg">
+          {still.src ? (
+            <img
+              src={still.src}
+              alt="Production photo"
+              class="w-full aspect-[4/3] object-cover transition-transform duration-300 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <div class="p-4 text-xs text-red-500 bg-neutral-100 dark:bg-neutral-900 aspect-[4/3] flex flex-col justify-center overflow-auto">
+              <strong>Image missing reference</strong>
+              <pre class="mt-2 text-[10px]">{JSON.stringify(still.rawImage, null, 2)}</pre>
+            </div>
+          )}
+        </div>
       ))}
     </div>
   </section>
-
-  <!-- Lightbox -->
-  <div id="lightbox" class="lb hidden" aria-hidden="true">
-    <div class="lb-backdrop" data-close></div>
-
-    <div class="lb-panel" role="dialog" aria-modal="true" aria-label="Image viewer">
-      <button class="lb-close" type="button" aria-label="Close" data-close>✕</button>
-
-      <button class="lb-nav lb-prev" type="button" aria-label="Previous photo" data-prev>‹</button>
-
-      <img id="lb-img" class="lb-img" alt="Full-size production photo" />
-
-      <button class="lb-nav lb-next" type="button" aria-label="Next photo" data-next>›</button>
-
-      <div class="lb-counter" id="lb-counter"></div>
-    </div>
-  </div>
-
-  <script define:vars={{ photos }}>
-    const lb = document.getElementById("lightbox");
-    const lbImg = document.getElementById("lb-img");
-    const lbCounter = document.getElementById("lb-counter");
-
-    const thumbs = document.querySelectorAll("[data-idx]");
-    const closeEls = document.querySelectorAll("[data-close]");
-    const prevBtn = document.querySelector("[data-prev]");
-    const nextBtn = document.querySelector("[data-next]");
-
-    let current = 0;
-
-    function render() {
-      lbImg.src = photos[current];
-      lbCounter.textContent = `${current + 1} / ${photos.length}`;
-    }
-
-    function openAt(i) {
-      current = (i + photos.length) % photos.length;
-      render();
-      lb.classList.remove("hidden");
-      lb.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-    }
-
-    function close() {
-      lb.classList.add("hidden");
-      lb.setAttribute("aria-hidden", "true");
-      lbImg.src = "";
-      document.body.style.overflow = "";
-    }
-
-    function prev() { openAt(current - 1); }
-    function next() { openAt(current + 1); }
-
-    thumbs.forEach((t) => {
-      t.addEventListener("click", () => openAt(parseInt(t.dataset.idx, 10)));
-    });
-
-    closeEls.forEach((el) => el.addEventListener("click", close));
-    prevBtn.addEventListener("click", prev);
-    nextBtn.addEventListener("click", next);
-
-    // click image to advance (optional, feels nice)
-    lbImg.addEventListener("click", next);
-
-    // keyboard controls
-    window.addEventListener("keydown", (e) => {
-      if (lb.classList.contains("hidden")) return;
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-    });
-  </script>
-
-  <style>
-    /* ---- Mosaic grid ---- */
-    .stills-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    @media (min-width: 640px) {
-      .stills-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .stills-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
-    .stills-tile {
-      position: relative;
-      overflow: hidden;
-      border-radius: 14px;
-      border: 1px solid rgb(var(--line));
-      background: rgb(var(--surface));
-      padding: 0;
-      cursor: pointer;
-      aspect-ratio: 1 / 1; /* force square tiles */
-    }
-
-    .stills-tile img {
-      display: block;
-      transition: transform 0.5s ease, filter 0.5s ease;
-    }
-
-    .stills-tile:hover img {
-      transform: scale(1.06);
-    }
-
-    .stills-tile::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 14px;
-      border: 0px solid rgb(var(--accent));
-      transition: border-width 0.2s ease;
-      pointer-events: none;
-    }
-
-    .stills-tile:hover::after {
-      border-width: 3px;
-    }
-
-    /* Neutralize mosaic spans so every tile remains a single square */
-    .tile-wide,
-    .tile-feature {
-      grid-column: span 1;
-      grid-row: span 1;
-    }
-
-    /* ---- Lightbox ---- */
-    .lb { position: fixed; inset: 0; z-index: 50; }
-    .lb.hidden { display: none; }
-
-    .lb-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.85); }
-
-    .lb-panel {
-      position: relative;
-      height: 100%;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-    }
-
-    .lb-img {
-      max-width: min(92vw, 1300px);
-      max-height: 86vh;
-      border-radius: 10px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      cursor: pointer;
-      background: rgb(var(--surface));
-    }
-
-    .lb-close {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.08);
-      color: white;
-      font-size: 18px;
-      line-height: 1;
-      transition: border-color 0.2s ease, color 0.2s ease;
-    }
-
-    .lb-close:hover,
-    .lb-nav:hover {
-      border-color: rgb(var(--accent));
-      color: rgb(var(--accent));
-    }
-
-    .lb-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 52px;
-      height: 52px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.08);
-      color: white;
-      font-size: 34px;
-      line-height: 1;
-      display: grid;
-      place-items: center;
-    }
-    .lb-prev { left: 18px; }
-    .lb-next { right: 18px; }
-
-    .lb-counter {
-      position: absolute;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: white;
-      font-size: 12px;
-      letter-spacing: 0.05em;
-    }
-  </style>
 </BaseLayout>
