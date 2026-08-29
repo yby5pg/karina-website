@@ -38,20 +38,20 @@ const stills =
       <p class="mt-8 text-neutral-500">No stills found or failed to fetch from Sanity.</p>
     )}
 
-    <!-- Adjusted grid for larger, centered frames -->
-    <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
+    <!-- Grid with larger, zero-gap border-to-border image frames -->
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {stills.map((still: any) => (
-        <div class="media-frame group overflow-hidden border border-neutral-200 dark:border-neutral-800 rounded-lg bg-neutral-900/5 dark:bg-neutral-900 flex items-center justify-center min-h-[320px]">
+        <div class="media-frame group overflow-hidden border border-neutral-200 dark:border-neutral-800 rounded-lg bg-neutral-900">
           {still.src ? (
             <img
               src={still.src}
               alt="Production photo"
-              class="w-full h-full max-h-[420px] aspect-[4/3] object-contain object-center transition-transform duration-300 group-hover:scale-105 p-2"
+              class="w-full aspect-[3/2] object-cover object-center transition-transform duration-300 group-hover:scale-105"
               loading="lazy"
               decoding="async"
             />
           ) : (
-            <div class="p-4 text-xs text-red-500 bg-neutral-100 dark:bg-neutral-900 aspect-[4/3] flex flex-col justify-center overflow-auto w-full">
+            <div class="p-4 text-xs text-red-500 bg-neutral-100 dark:bg-neutral-900 aspect-[3/2] flex flex-col justify-center overflow-auto w-full">
               <strong>Image missing reference</strong>
               <pre class="mt-2 text-[10px]">{JSON.stringify(still.rawImage, null, 2)}</pre>
             </div>
