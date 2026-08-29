@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { client, urlFor } from "../lib/sanity";
 
-// Fallback arrays/strings in case Sanity data hasn't been added yet
+// Fallback arrays/strings
 const defaultHeroPhotos = [
   "/images/productions/63.jpg",
   "/slideshow/photos/3.JPEG",
@@ -13,7 +13,7 @@ const defaultHeroPhotos = [
 ];
 const defaultPortrait = "/images/headshots/headshot1.JPG";
 
-// 1. Fetch production stills where isHero (or hero) is explicitly set to true
+// 1. Fetch hero stills
 const heroStillsData = await client.fetch(
   `*[_type == "still" && (isHero == true || hero == true)] { image }`
 );
@@ -35,12 +35,11 @@ if (heroStillsData && heroStillsData.length > 0) {
     .filter((url): url is string => Boolean(url));
 }
 
-// Only use default fallback photos if zero hero stills are tagged in Sanity
 if (heroPhotos.length === 0) {
   heroPhotos = defaultHeroPhotos;
 }
 
-// 2. Fetch headshot from the headshotResume document
+// 2. Fetch headshot
 const headshotData = await client.fetch(
   `*[_type == "headshotResume"][0] { headshot }`
 );
@@ -195,13 +194,13 @@ const reelTeasers = [
     const nextBtn = document.querySelector("[data-hero-next]");
     const total = heroSlides.length;
     let activeIndex = 0;
-    let timer;
+    let timer: number | undefined;
 
-    function pad(n) {
+    function pad(n: number) {
       return String(n).padStart(2, "0");
     }
 
-    function classifySlide(slide) {
+    function classifySlide(slide: HTMLImageElement) {
       if (slide.naturalWidth && slide.naturalHeight) {
         const isPortrait = slide.naturalHeight > slide.naturalWidth;
         slide.classList.toggle("is-portrait", isPortrait);
@@ -219,7 +218,7 @@ const reelTeasers = [
       if (heroCount) heroCount.textContent = `${pad(activeIndex + 1)} / ${pad(total)}`;
     }
 
-    function go(delta) {
+    function go(delta: number) {
       activeIndex = (activeIndex + delta + total) % total;
       render();
     }
@@ -233,7 +232,7 @@ const reelTeasers = [
       if (timer) window.clearInterval(timer);
     }
 
-    heroSlides.forEach((slide) => classifySlide(slide));
+    heroSlides.forEach((slide) => classifySlide(slide as HTMLImageElement));
 
     if (total > 0) {
       render();
@@ -259,7 +258,8 @@ const reelTeasers = [
     // ---- Reel hover-play previews ----
     const hoverVideos = document.querySelectorAll("video.hover-play");
 
-    hoverVideos.forEach((video) => {
+    hoverVideos.forEach((videoEl) => {
+      const video = videoEl as HTMLVideoElement;
       const startTime = parseFloat(video.dataset.start || "0");
 
       video.addEventListener("mouseenter", async () => {

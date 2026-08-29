@@ -1,4 +1,6 @@
 ---
+const pathname = Astro.url.pathname;
+
 const links = [
   { href: "/", label: "Home" },
   { href: "/headshot-resume", label: "Headshot + Resume" },
@@ -7,16 +9,97 @@ const links = [
   { href: "/contact", label: "Contact" },
 ];
 ---
-<header class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-  <div class="text-center sm:text-left">
-    <p class="eyebrow">Karina Yakubisin</p>
+
+<header class="container relative flex items-center justify-between py-4 mb-8 sm:mb-12">
+  <div class="z-30">
+    <a href="/" class="eyebrow tracking-widest hover:opacity-80 transition-opacity">
+      Karina Yakubisin
+    </a>
   </div>
 
-  <nav class="flex flex-wrap justify-center gap-3 text-sm font-semibold">
-    {links.map((l) => (
-      <a href={l.href} class="btn">
-        {l.label}
-      </a>
-    ))}
+  <!-- Desktop Navigation -->
+  <nav class="hidden md:flex items-center gap-6 text-sm font-semibold">
+    {links.map((l) => {
+      const isActive = pathname === l.href || (l.href !== "/" && pathname.startsWith(l.href));
+      return (
+        <a 
+          href={l.href} 
+          class={`btn transition-colors ${isActive ? "text-[rgb(var(--accent))] underline underline-offset-4" : ""}`}
+        >
+          {l.label}
+        </a>
+      );
+    })}
   </nav>
+
+  <!-- Mobile Hamburger / X Button -->
+  <button 
+    id="mobileMenuToggle"
+    type="button" 
+    class="md:hidden z-30 flex flex-col justify-center items-center w-8 h-8 focus:outline-none text-current"
+    aria-label="Toggle Navigation Menu"
+    aria-expanded="false"
+  >
+    <span class="bar bar-1 w-6 h-0.5 bg-current transition-all duration-300 origin-center"></span>
+    <span class="bar bar-2 w-6 h-0.5 bg-current transition-all duration-300 my-1"></span>
+    <span class="bar bar-3 w-6 h-0.5 bg-current transition-all duration-300 origin-center"></span>
+  </button>
+
+  <!-- Mobile Menu Overlay -->
+  <div 
+    id="mobileMenu"
+    class="fixed inset-0 bg-[#0d0c0b]/95 z-20 hidden flex-col items-center justify-center gap-8 text-lg font-semibold text-white transition-opacity duration-300"
+  >
+    {links.map((l) => {
+      const isActive = pathname === l.href || (l.href !== "/" && pathname.startsWith(l.href));
+      return (
+        <a 
+          href={l.href} 
+          class={`hover:text-[rgb(var(--accent-on-dark))] transition-colors ${isActive ? "text-[rgb(var(--accent-on-dark))] underline underline-offset-8" : ""}`}
+        >
+          {l.label}
+        </a>
+      );
+    })}
+  </div>
 </header>
+
+<script>
+  const toggleBtn = document.getElementById("mobileMenuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const bar1 = document.querySelector(".bar-1");
+  const bar2 = document.querySelector(".bar-2");
+  const bar3 = document.querySelector(".bar-3");
+
+  if (toggleBtn && mobileMenu) {
+    toggleBtn.addEventListener("click", () => {
+      const isOpen = mobileMenu.classList.contains("flex");
+
+      if (isOpen) {
+        // Close menu
+        mobileMenu.classList.add("hidden");
+        mobileMenu.classList.remove("flex");
+        document.body.style.overflow = "";
+        toggleBtn.setAttribute("aria-expanded", "false");
+        toggleBtn.classList.remove("text-white");
+
+        // Revert X -> Hamburger
+        bar1?.classList.remove("rotate-45", "translate-y-[6px]");
+        bar2?.classList.remove("opacity-0");
+        bar3?.classList.remove("-rotate-45", "-translate-y-[6px]");
+      } else {
+        // Open menu
+        mobileMenu.classList.remove("hidden");
+        mobileMenu.classList.add("flex");
+        document.body.style.overflow = "hidden";
+        toggleBtn.setAttribute("aria-expanded", "true");
+        toggleBtn.classList.add("text-white"); // Ensures 'X' is clearly visible over dark overlay
+
+        // Transform Hamburger -> X
+        bar1?.classList.add("rotate-45", "translate-y-[6px]");
+        bar2?.classList.add("opacity-0");
+        bar3?.classList.add("-rotate-45", "-translate-y-[6px]");
+      }
+    });
+  }
+</script>
