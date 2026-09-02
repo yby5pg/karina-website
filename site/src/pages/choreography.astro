@@ -35,10 +35,10 @@ const steps = [
   }
 ];
 
-// Replace with your YouTube video IDs
+// YouTube video IDs and timestamp bounds in seconds
 const choreographyReels = [
-  { title: "Musical Theatre Jazz Combo", youtubeId: "qCmk47I9BkM"},
-  { title: "Positive - Legally Blonde", youtubeId: "o427FNrlYqs", start: 2222, end: 2250}
+  { title: "Musical Theatre Jazz Combo", youtubeId: "qCmk47I9BkM" },
+  { title: "Positive - Legally Blonde", youtubeId: "o427FNrlYqs", start: 2222, end: 2250 }
 ];
 ---
 
@@ -48,18 +48,17 @@ const choreographyReels = [
     <!-- Hero Header -->
     <div class="space-y-3">
       <p class="eyebrow">Custom College Audition Material</p>
-      <h1 class="text-3xl sm:text-5xl">Prescreen Choreography</h1>
+      <h1 class="text-3xl sm:text-5xl font-semibold">Prescreen Choreography</h1>
       <p class="text-base sm:text-lg muted leading-relaxed max-w-3xl">
         I’m so glad you’re interested in using my choreography! I work with artists of all experience levels - whether you're trying dance for the first time or possess advanced technical training.
       </p>
     </div>
 
-
     <!-- Pricing & Package -->
     <div class="panel p-6 sm:p-8 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
       <div class="space-y-1">
         <span class="eyebrow">All-Inclusive Package</span>
-        <h2 class="text-2xl">Customized Prescreen Choreography</h2>
+        <h2 class="text-2xl font-semibold">Customized Prescreen Choreography</h2>
         <p class="muted text-sm max-w-lg">
           A full-service package guiding you from track selection and cuts to custom combo creation and video instruction.
         </p>
@@ -74,16 +73,19 @@ const choreographyReels = [
     <div class="panel p-6 sm:p-8 space-y-6">
       <div class="space-y-1">
         <p class="eyebrow">Background & Experience</p>
-        <h2 class="text-2xl">My Credentials</h2>
+        <h2 class="text-2xl font-semibold">My Credentials</h2>
       </div>
 
       <div class="grid md:grid-cols-12 gap-8 items-center">
         <!-- Photo Space -->
-        <div class="md:col-span-5 aspect-[3/4] media-frame flex items-center justify-center">
+        <div class="md:col-span-5 aspect-[3/4] media-frame flex items-center justify-center overflow-hidden rounded-lg bg-neutral-900">
           <img 
             src="/images/credentials.JPEG" 
             alt="Karina Yakubisin Dancing" 
-            class="w-full h-full object-cover"
+            class="w-full h-full object-cover object-center"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
             onerror="this.onerror=null; this.parentElement.querySelector('.placeholder').classList.remove('hidden'); this.classList.add('hidden');"
           />
           <div class="placeholder hidden text-center p-6 space-y-2">
@@ -110,7 +112,7 @@ const choreographyReels = [
 
     <!-- Process -->
     <div class="space-y-6">
-      <h2 class="text-2xl">How It Works</h2>
+      <h2 class="text-2xl font-semibold">How It Works</h2>
       <div class="grid gap-6 sm:grid-cols-2">
         {steps.map((step) => (
           <div class="panel p-6 space-y-2">
@@ -126,34 +128,46 @@ const choreographyReels = [
     <div class="space-y-6 pt-6 border-t border-[rgb(var(--line))]">
       <div class="space-y-1">
         <p class="eyebrow">Video Samples</p>
-        <h2 class="text-2xl">My Choreography</h2>
+        <h2 class="text-2xl font-semibold">My Choreography</h2>
       </div>
 
       <div class="grid gap-6 sm:grid-cols-2">
-        {choreographyReels.map((reel) => (
-          <div class="space-y-2">
-            <div class="aspect-video media-frame flex items-center justify-center">
+        {choreographyReels.map((reel) => {
+          // Construct URL parameters properly
+          const params = new URLSearchParams();
+          if (reel.start !== undefined) params.append("start", String(reel.start));
+          if (reel.end !== undefined) params.append("end", String(reel.end));
+          params.append("rel", "0");
+
+          const embedUrl = reel.youtubeId 
+            ? `https://www.youtube-nocookie.com/embed/${reel.youtubeId}?${params.toString()}`
+            : "";
+
+          return (
+            <div class="space-y-2">
+              <div class="aspect-video media-frame flex items-center justify-center overflow-hidden rounded-lg bg-neutral-900">
                 {reel.youtubeId ? (
-                    <iframe 
+                  <iframe 
                     class="w-full h-full" 
-                    src={`https://www.youtube.com/embed/${reel.youtubeId}?start=${reel.start || 0}${reel.end ? `&end=${reel.end}` : ''}&rel=0`} 
+                    src={embedUrl}
                     title={reel.title} 
                     frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                     allowfullscreen
-                    ></iframe>
+                  ></iframe>
                 ) : (
-                    <div class="text-center p-6 space-y-2">
+                  <div class="text-center p-6 space-y-2">
                     <svg class="w-8 h-8 mx-auto muted" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                     </svg>
                     <p class="text-xs muted">Add YouTube ID in <br/><code>choreographyReels</code> array</p>
-                    </div>
+                  </div>
                 )}
+              </div>
+              <h3 class="text-sm font-semibold">{reel.title}</h3>
             </div>
-            <h3 class="text-sm font-semibold">{reel.title}</h3>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
 
