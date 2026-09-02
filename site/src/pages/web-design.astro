@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const features = [
+  "Downloadable Headshot & Resume setup",
+  "Embedded Video Reels & High-Res Stills",
+  "Dedicated Contact Page",
+  "Easily editable dashboard to update photos, reels, and resume without coding or reaching out for simple changes!",
+  "Minor design and structure adjustments down the road ($10–$100)",
+];
+
+const process = [
+  {
+    step: "01",
+    title: "Send Your Materials",
+    desc: "Send over your headshots, resume, performance links, and design preferences."
+  },
+  {
+    step: "02",
+    title: "Custom Build",
+    desc: "I build out your custom performer portfolio tailored to your unique brand."
+  },
+  {
+    step: "03",
+    title: "Zoom Call & Launch",
+    desc: "We hop on a quick Zoom call to purchase your domain, review the site, make any live tweaks, and walk through your simple edit dashboard."
+  }
+];
+---
+
+<BaseLayout title="Web Design for Performers | Karina Yakubisin" description="Custom performer websites built by a CS graduate and fellow performer.">
+  <section class="space-y-12 py-4">
+    
+    <!-- Hero Section -->
+    <div class="space-y-3">
+      <p class="eyebrow">Web Development Services</p>
+      <h1 class="text-3xl sm:text-5xl">Custom Performer Websites</h1>
+      <p class="text-base sm:text-lg muted leading-relaxed max-w-3xl">
+        Hi! I’m a fellow performer with a Computer Science degree from the University of Virginia. I build clean, responsive, fully custom websites tailored specifically for actors, dancers, and musical theatre artists, like the one you are on now!
+      </p>
+    </div>
+
+    <!-- Pricing Card -->
+    <div class="panel p-6 sm:p-8 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
+      <div class="space-y-1">
+        <h2 class="text-3xl sm:text-4xl text-[rgb(var(--accent))]">$399 <span class="text-lg font-sans text-[rgb(var(--text))]">flat fee</span></h2>
+        <p class="muted text-sm max-w-md leading-relaxed">
+          Say goodbye to expensive monthly site builders. Your domain costs only ~$10–$15/year compared to $200+/year on Squarespace or Wix!
+        </p>
+      </div>
+      <div>
+        <a 
+          href="mailto:karinayakubisin@gmail.com?subject=Performer%20Website%20Inquiry" 
+          class="btn text-base border border-[rgb(var(--line))] px-5 py-2.5 rounded-lg hover:border-[rgb(var(--accent))]"
+        >
+          Email Me to See Templates
+        </a>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="space-y-6">
+      <h2 class="text-2xl">Included Site Features</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {features.map((feature) => (
+          <div class="panel p-5 flex items-start gap-3">
+            <span class="w-1.5 h-1.5 rounded-full bg-[rgb(var(--accent))] shrink-0 mt-2"></span>
+            <span class="text-sm leading-relaxed">{feature}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Process -->
+    <div class="space-y-6">
+      <h2 class="text-2xl">How It Works</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        {process.map((item) => (
+          <div class="panel p-6 space-y-2">
+            <span class="eyebrow">{item.step}</span>
+            <h3 class="text-lg font-semibold">{item.title}</h3>
+            <p class="text-sm muted leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="panel p-8 text-center space-y-4">
+      <h2 class="text-2xl sm:text-3xl">Ready to get your site built?</h2>
+      <p class="muted text-sm max-w-lg mx-auto">
+        Email me to view sample templates and discuss your design ideas. Turn around is 1-3 weeks after initial meeting!
+      </p>
+      <div>
+        <a 
+          href="mailto:karinayakubisin@gmail.com" 
+          class="link-arrow text-base"
+        >
+          karinayakubisin@gmail.com
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+  </section>
+</BaseLayout>
